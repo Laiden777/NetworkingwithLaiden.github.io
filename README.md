@@ -3,789 +3,885 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetworkingwithLaiden - AI Networking Classroom</title>
+    <title>NetLearn - Virtual Networking Classroom</title>
     <style>
         :root {
             --primary: #3498db;
             --secondary: #2980b9;
-            --accent: #e74c3c;
+            --accent: #f39c12;
             --light: #ecf0f1;
             --dark: #2c3e50;
-            --success: #2ecc71;
-            --warning: #f39c12;
+            --success: #27ae60;
+            --danger: #e74c3c;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
             background-color: #f5f7fa;
             color: var(--dark);
-            line-height: 1.6;
         }
-
-        h1, h2, h3, h4 {
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
+        
         header {
             background-color: var(--primary);
             color: white;
             padding: 1rem;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
-        header h1 {
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
+        
         nav {
-            background-color: var(--secondary);
-            padding: 0.5rem;
-            display: flex;
-            justify-content: center;
-        }
-
-        nav button {
-            background-color: transparent;
-            border: none;
-            color: white;
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        nav button:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        nav button.active {
-            background-color: rgba(255,255,255,0.2);
-            font-weight: bold;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .section {
-            display: none;
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .topic-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .topic-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .topic-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .topic-card-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 1rem;
-        }
-
-        .topic-card-body {
-            padding: 1rem;
-        }
-
-        .topic-card-footer {
-            padding: 1rem;
-            background-color: var(--light);
-            text-align: right;
-        }
-
-        .lesson-content {
-            margin-bottom: 2rem;
-        }
-
-        .lesson-navigation {
             display: flex;
             justify-content: space-between;
-            margin-top: 2rem;
+            align-items: center;
         }
-
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: var(--secondary);
-        }
-
-        button.secondary {
-            background-color: var(--light);
-            color: var(--dark);
-        }
-
-        button.secondary:hover {
-            background-color: #dfe6e9;
-        }
-
-        #chat-container {
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
             display: flex;
-            flex-direction: column;
-            height: 500px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
+            align-items: center;
         }
-
-        #chat-messages {
-            flex-grow: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            background-color: #f9f9f9;
-        }
-
-        .message {
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            border-radius: 8px;
-            max-width: 80%;
-        }
-
-        .user-message {
-            background-color: var(--primary);
-            color: white;
-            align-self: flex-end;
-            margin-left: auto;
-        }
-
-        .ai-message {
-            background-color: #e9e9e9;
-            color: var(--dark);
-        }
-
-        #chat-input-container {
-            display: flex;
-            padding: 1rem;
-            background-color: white;
-            border-top: 1px solid #ddd;
-        }
-
-        #chat-input {
-            flex-grow: 1;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        
+        .logo-icon {
             margin-right: 0.5rem;
         }
-
-        .quiz-container {
-            margin-bottom: 2rem;
+        
+        .nav-links {
+            display: flex;
         }
-
-        .quiz-question {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background-color: var(--light);
-            border-radius: 8px;
-        }
-
-        .quiz-options {
-            list-style-type: none;
-        }
-
-        .quiz-option {
-            padding: 0.8rem;
-            margin-bottom: 0.5rem;
-            background-color: white;
-            border: 1px solid #ddd;
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            padding: 0.5rem;
             border-radius: 4px;
-            cursor: pointer;
             transition: background-color 0.3s;
         }
-
-        .quiz-option:hover {
-            background-color: #f1f1f1;
+        
+        .nav-links a:hover {
+            background-color: var(--secondary);
         }
-
-        .quiz-option.selected {
-            background-color: var(--primary);
-            color: white;
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
-
-        .quiz-option.correct {
-            background-color: var(--success);
-            color: white;
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
         }
-
-        .quiz-option.incorrect {
+        
+        .hero-content {
+            flex: 1;
+            padding-right: 2rem;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
             background-color: var(--accent);
             color: white;
-        }
-
-        #notes-container {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        #notes-list {
-            margin-bottom: 1rem;
-        }
-
-        .note-card {
-            padding: 1rem;
-            background-color: var(--light);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            cursor: pointer;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
             transition: background-color 0.3s;
         }
-
-        .note-card:hover {
-            background-color: #dfe6e9;
+        
+        .btn:hover {
+            background-color: #e67e22;
         }
-
-        .note-card h3 {
+        
+        .section-title {
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
             margin-bottom: 0.5rem;
         }
-
-        .note-card p {
-            color: #636e72;
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
         }
-
-        #note-editor {
+        
+        .tabs {
             display: flex;
-            flex-direction: column;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 2rem;
         }
-
-        #note-title {
-            padding: 0.8rem;
+        
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .learning-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .module-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .module-image {
+            height: 150px;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .module-content {
+            padding: 1.5rem;
+        }
+        
+        .module-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .module-card p {
+            color: #666;
             margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            line-height: 1.6;
         }
-
-        #note-content {
-            padding: 0.8rem;
+        
+        .quiz-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .quiz-card p {
+            color: #666;
             margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            min-height: 200px;
-            resize: vertical;
+            line-height: 1.6;
         }
-
-        .grid-container {
+        
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        
+        .notes-container {
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 2rem;
         }
-
+        
+        .notes-list {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 500px;
+            overflow-y: auto;
+        }
+        
+        .note-item {
+            padding: 0.8rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .note-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .note-item.active {
+            background-color: #e3f2fd;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .note-editor {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .note-title {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .note-content {
+            width: 100%;
+            height: 400px;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+            font-family: inherit;
+        }
+        
+        .chat-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+        
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-header-icon {
+            margin-right: 0.5rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+        }
+        
+        .message.user {
+            justify-content: flex-end;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .message.ai .message-content {
+            background-color: #f1f0f0;
+        }
+        
+        .message.user .message-content {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .chat-send-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .chat-send-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
         @media (max-width: 768px) {
-            .grid-container {
+            .hero {
+                flex-direction: column;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .notes-container {
                 grid-template-columns: 1fr;
             }
             
-            nav {
-                flex-wrap: wrap;
+            .footer-content {
+                flex-direction: column;
             }
             
-            nav button {
-                margin-bottom: 0.5rem;
+            .footer-links {
+                margin-top: 1rem;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>NetworkingwithLaiden: AI Networking Classroom</h1>
-        <p>Learn computer networking concepts with AI-powered instruction</p>
+        <nav>
+            <div class="logo">
+                <span class="logo-icon">🌐</span>
+                NetLearn
+            </div>
+            <div class="nav-links">
+                <a href="#learn">Learn</a>
+                <a href="#quiz">Tests & Quizzes</a>
+                <a href="#notes">My Notes</a>
+                <a href="#chat">AI Assistant</a>
+            </div>
+        </nav>
     </header>
     
-    <nav>
-        <button id="nav-home" class="active">Home</button>
-        <button id="nav-learn">Learn</button>
-        <button id="nav-test">Tests & Quizzes</button>
-        <button id="nav-notes">My Notes</button>
-        <button id="nav-chat">AI Chat</button>
-    </nav>
-    
-    <main>
-        <!-- Home Section -->
-        <section id="home-section" class="section active">
-            <h2>Welcome to NetLearn</h2>
-            <p>Your AI-powered classroom for learning computer networking concepts</p>
-            
-            <div class="topic-list">
-                <div class="topic-card" onclick="navigateTo('learn')">
-                    <div class="topic-card-header">
-                        <h3>Learning Center</h3>
-                    </div>
-                    <div class="topic-card-body">
-                        <p>Access interactive lessons covering all aspects of computer networking.</p>
-                    </div>
-                    <div class="topic-card-footer">
-                        <button>Start Learning</button>
-                    </div>
-                </div>
-                
-                <div class="topic-card" onclick="navigateTo('test')">
-                    <div class="topic-card-header">
-                        <h3>Tests & Quizzes</h3>
-                    </div>
-                    <div class="topic-card-body">
-                        <p>Test your knowledge with interactive quizzes based on what you've learned.</p>
-                    </div>
-                    <div class="topic-card-footer">
-                        <button>Take a Quiz</button>
-                    </div>
-                </div>
-                
-                <div class="topic-card" onclick="navigateTo('notes')">
-                    <div class="topic-card-header">
-                        <h3>My Notes</h3>
-                    </div>
-                    <div class="topic-card-body">
-                        <p>Keep track of what you've learned with a personal note-taking system.</p>
-                    </div>
-                    <div class="topic-card-footer">
-                        <button>Open Notes</button>
-                    </div>
-                </div>
-                
-                <div class="topic-card" onclick="navigateTo('chat')">
-                    <div class="topic-card-header">
-                        <h3>AI Chat Assistant</h3>
-                    </div>
-                    <div class="topic-card-body">
-                        <p>Have questions? Chat with our AI assistant for immediate help with networking concepts.</p>
-                    </div>
-                    <div class="topic-card-footer">
-                        <button>Start Chatting</button>
-                    </div>
-                </div>
+    <div class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Master Computer Networking with AI Teachers</h1>
+                <p>Welcome to NetLearn, your interactive virtual classroom for learning computer system networking. Our AI teachers provide personalized education, instant feedback, and expert guidance on networking concepts.</p>
+                <a href="#learn" class="btn">Start Learning Now</a>
+            </div>
+            <div class="hero-image">
+                <img src="/api/placeholder/500/300" alt="Network Classroom" />
             </div>
         </section>
         
-        <!-- Learn Section -->
-        <section id="learn-section" class="section">
-            <h2>Learning Center</h2>
-            
-            <div id="topic-selection">
-                <h3>Select a topic to begin learning</h3>
-                
-                <div class="topic-list">
-                    <div class="topic-card" onclick="loadLesson('intro')">
-                        <div class="topic-card-header">
-                            <h3>Introduction to Networking</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Learn the fundamentals of computer networks and why they matter.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadLesson('osi')">
-                        <div class="topic-card-header">
-                            <h3>OSI Model</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Understand the 7-layer OSI model that standardizes network communications.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadLesson('tcp-ip')">
-                        <div class="topic-card-header">
-                            <h3>TCP/IP Protocol Suite</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Explore the protocols that power the internet and modern networks.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadLesson('routing')">
-                        <div class="topic-card-header">
-                            <h3>Routing & Switching</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Learn how data finds its way across networks and between devices.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadLesson('security')">
-                        <div class="topic-card-header">
-                            <h3>Network Security</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Discover essential security concepts for protecting network infrastructure.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadLesson('wireless')">
-                        <div class="topic-card-header">
-                            <h3>Wireless Networks</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Understand Wi-Fi and other wireless networking technologies.</p>
-                        </div>
-                    </div>
-                </div>
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">👩‍🏫</div>
+                <h3>AI Teachers</h3>
+                <p>Learn from our advanced AI teachers who provide personalized instruction and answer your networking questions 24/7.</p>
             </div>
-            
-            <div id="lesson-content" style="display: none;">
-                <div id="lesson-title">
-                    <h3>Lesson Title</h3>
-                </div>
-                
-                <div id="lesson-body" class="lesson-content">
-                    <!-- Lesson content will be loaded here -->
-                </div>
-                
-                <div class="lesson-navigation">
-                    <button onclick="showTopicSelection()" class="secondary">Back to Topics</button>
-                    <button onclick="completeLesson()">Complete & Continue</button>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Interactive Quizzes</h3>
+                <p>Test your knowledge with adaptive quizzes that focus on your weak areas and help reinforce your learning.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Smart Notes</h3>
+                <p>Organize your thoughts with our intelligent note-taking system that links concepts and helps you build your knowledge base.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Networking Assistant</h3>
+                <p>Chat with our specialized networking assistant to get instant help on any networking topic or troubleshooting guidance.</p>
             </div>
         </section>
         
-        <!-- Tests & Quizzes Section -->
-        <section id="test-section" class="section">
-            <h2>Tests & Quizzes</h2>
-            
-            <div id="quiz-selection">
-                <h3>Select a quiz to test your knowledge</h3>
-                
-                <div class="topic-list">
-                    <div class="topic-card" onclick="loadQuiz('intro-quiz')">
-                        <div class="topic-card-header">
-                            <h3>Introduction to Networking</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Test your knowledge of network fundamentals.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadQuiz('osi-quiz')">
-                        <div class="topic-card-header">
-                            <h3>OSI Model</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Verify your understanding of the 7-layer model.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadQuiz('tcp-ip-quiz')">
-                        <div class="topic-card-header">
-                            <h3>TCP/IP Quiz</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Test your knowledge of internet protocols.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadQuiz('routing-quiz')">
-                        <div class="topic-card-header">
-                            <h3>Routing & Switching</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Challenge yourself on network routing concepts.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadQuiz('security-quiz')">
-                        <div class="topic-card-header">
-                            <h3>Network Security</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Test your network security knowledge.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="topic-card" onclick="loadQuiz('wireless-quiz')">
-                        <div class="topic-card-header">
-                            <h3>Wireless Networks</h3>
-                        </div>
-                        <div class="topic-card-body">
-                            <p>Evaluate your understanding of wireless technologies.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="quiz-container" style="display: none;">
-                <div id="quiz-title">
-                    <h3>Quiz Title</h3>
-                </div>
-                
-                <div id="quiz-progress">
-                    Question <span id="current-question">1</span> of <span id="total-questions">10</span>
-                </div>
-                
-                <div id="quiz-content" class="quiz-container">
-                    <!-- Quiz content will be loaded here -->
-                </div>
-                
-                <div class="lesson-navigation">
-                    <button onclick="showQuizSelection()" class="secondary">Back to Quizzes</button>
-                    <button id="next-question" onclick="nextQuestion()">Next Question</button>
-                    <button id="finish-quiz" style="display: none;" onclick="finishQuiz()">Finish Quiz</button>
-                </div>
-            </div>
-            
-            <div id="quiz-results" style="display: none;">
-                <h3>Quiz Results</h3>
-                <div id="results-content">
-                    <!-- Results will be shown here -->
-                </div>
-                <div class="lesson-navigation">
-                    <button onclick="showQuizSelection()" class="secondary">Back to Quizzes</button>
-                </div>
-            </div>
-        </section>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="learn">Learning Modules</button>
+            <button class="tab-btn" data-tab="quiz">Tests & Quizzes</button>
+            <button class="tab-btn" data-tab="notes">My Notes</button>
+            <button class="tab-btn" data-tab="chat">AI Assistant</button>
+        </div>
         
-        <!-- Notes Section -->
-        <section id="notes-section" class="section">
-            <h2>My Notes</h2>
-            
-            <div class="grid-container">
-                <div id="notes-sidebar">
-                    <button onclick="createNewNote()" style="width: 100%; margin-bottom: 1rem;">Create New Note</button>
-                    
-                    <h3>My Saved Notes</h3>
-                    <div id="notes-list">
-                        <!-- Notes list will be populated here -->
+        <div id="learn" class="tab-content active">
+            <h2 class="section-title">Learning Modules</h2>
+            <div class="learning-modules">
+                <div class="module-card">
+                    <div class="module-image" style="background-color: #3498db;">
+                        Network Fundamentals
+                    </div>
+                    <div class="module-content">
+                        <h3>Network Fundamentals</h3>
+                        <p>Learn the core concepts of computer networking including OSI model, TCP/IP, and basic network topologies.</p>
+                        <a href="#" class="btn">Start Learning</a>
                     </div>
                 </div>
-                
-                <div id="note-editor">
-                    <input type="text" id="note-title" placeholder="Note Title">
-                    <textarea id="note-content" placeholder="Write your notes here..."></textarea>
-                    
-                    <div style="display: flex; justify-content: space-between;">
-                        <button class="secondary" onclick="cancelNote()">Cancel</button>
-                        <button onclick="saveNote()">Save Note</button>
+                <div class="module-card">
+                    <div class="module-image" style="background-color: #e74c3c;">
+                        Routing & Switching
+                    </div>
+                    <div class="module-content">
+                        <h3>Routing & Switching</h3>
+                        <p>Understand how data is routed across networks and how switches manage local network traffic.</p>
+                        <a href="#" class="btn">Start Learning</a>
+                    </div>
+                </div>
+                <div class="module-card">
+                    <div class="module-image" style="background-color: #2ecc71;">
+                        Network Security
+                    </div>
+                    <div class="module-content">
+                        <h3>Network Security</h3>
+                        <p>Explore essential security concepts including firewalls, encryption, VPNs, and threat detection systems.</p>
+                        <a href="#" class="btn">Start Learning</a>
+                    </div>
+                </div>
+                <div class="module-card">
+                    <div class="module-image" style="background-color: #9b59b6;">
+                        Wireless Networking
+                    </div>
+                    <div class="module-content">
+                        <h3>Wireless Networking</h3>
+                        <p>Master wireless protocols, standards, and security measures for modern wireless networks.</p>
+                        <a href="#" class="btn">Start Learning</a>
+                    </div>
+                </div>
+                <div class="module-card">
+                    <div class="module-image" style="background-color: #f39c12;">
+                        Cloud Networking
+                    </div>
+                    <div class="module-content">
+                        <h3>Cloud Networking</h3>
+                        <p>Discover how networking works in cloud environments and best practices for cloud infrastructure.</p>
+                        <a href="#" class="btn">Start Learning</a>
+                    </div>
+                </div>
+                <div class="module-card">
+                    <div class="module-image" style="background-color: #1abc9c;">
+                        Network Automation
+                    </div>
+                    <div class="module-content">
+                        <h3>Network Automation</h3>
+                        <p>Learn how to automate network tasks using scripting, APIs, and infrastructure as code.</p>
+                        <a href="#" class="btn">Start Learning</a>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
         
-        <!-- Chat Section -->
-        <section id="chat-section" class="section">
-            <h2>AI Chat Assistant</h2>
-            <p>Ask our AI teacher any questions about computer networking</p>
-            
-            <div id="chat-container">
-                <div id="chat-messages">
-                    <div class="message ai-message">
-                        Hello! I'm NetLearn's AI assistant. I'm here to help you with any networking questions you might have. What would you like to learn about today?
+        <div id="quiz" class="tab-content">
+            <h2 class="section-title">Tests & Quizzes</h2>
+            <div class="quiz-list">
+                <div class="quiz-card">
+                    <h3>Network Fundamentals Quiz</h3>
+                    <div class="quiz-meta">
+                        <span>10 questions</span>
+                        <span>15 minutes</span>
                     </div>
+                    <p>Test your understanding of basic networking concepts, protocols, and the OSI model.</p>
+                    <a href="#" class="btn">Start Quiz</a>
                 </div>
-                
-                <div id="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="Type your question here...">
-                    <button onclick="sendMessage()">Send</button>
+                <div class="quiz-card">
+                    <h3>IP Addressing & Subnetting</h3>
+                    <div class="quiz-meta">
+                        <span>15 questions</span>
+                        <span>20 minutes</span>
+                    </div>
+                    <p>Challenge yourself with questions on IP addressing, subnetting, and CIDR notation.</p>
+                    <a href="#" class="btn">Start Quiz</a>
+                </div>
+                <div class="quiz-card">
+                    <h3>Routing Protocols Test</h3>
+                    <div class="quiz-meta">
+                        <span>12 questions</span>
+                        <span>18 minutes</span>
+                    </div>
+                    <p>Evaluate your knowledge of various routing protocols like OSPF, EIGRP, and BGP.</p>
+                    <a href="#" class="btn">Start Quiz</a>
+                </div>
+                <div class="quiz-card">
+                    <h3>Network Security Assessment</h3>
+                    <div class="quiz-meta">
+                        <span>20 questions</span>
+                        <span>30 minutes</span>
+                    </div>
+                    <p>Test your understanding of network security principles, tools, and best practices.</p>
+                    <a href="#" class="btn">Start Quiz</a>
+                </div>
+                <div class="quiz-card">
+                    <h3>Wireless Networking Quiz</h3>
+                    <div class="quiz-meta">
+                        <span>15 questions</span>
+                        <span>20 minutes</span>
+                    </div>
+                    <p>Demonstrate your knowledge of wireless standards, protocols, and security measures.</p>
+                    <a href="#" class="btn">Start Quiz</a>
+                </div>
+                <div class="quiz-card">
+                    <h3>Final Certification Exam</h3>
+                    <div class="quiz-meta">
+                        <span>50 questions</span>
+                        <span>90 minutes</span>
+                    </div>
+                    <p>Comprehensive exam covering all aspects of networking to earn your NetLearn certification.</p>
+                    <a href="#" class="btn">Start Exam</a>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+        
+        <div id="notes" class="tab-content">
+            <h2 class="section-title">My Notes</h2>
+            <div class="notes-container">
+                <div class="notes-list">
+                    <div class="note-item active">OSI Model Notes</div>
+                    <div class="note-item">TCP/IP Protocol Suite</div>
+                    <div class="note-item">Subnetting Cheat Sheet</div>
+                    <div class="note-item">Routing Protocol Comparison</div>
+                    <div class="note-item">Network Security Best Practices</div>
+                    <div class="note-item">Wireless Standards Overview</div>
+                </div>
+                <div class="note-editor">
+                    <input type="text" class="note-title" value="OSI Model Notes">
+                    <textarea class="note-content"># OSI Model Layers
 
+## Layer 1: Physical
+- Deals with the physical connection between devices
+- Transmits raw bit stream over physical medium
+- Examples: Cables, switches, network adapters
+
+## Layer 2: Data Link
+- Provides node-to-node data transfer
+- Detects and possibly corrects errors from physical layer
+- Examples: Ethernet, PPP, Switch, Bridge
+
+## Layer 3: Network
+- Routes data packets between networks
+- Handles addressing and path determination
+- Examples: IP, ICMP, Routers
+
+## Layer 4: Transport
+- Provides end-to-end communication control
+- Examples: TCP, UDP
+
+## Layer 5: Session
+- Manages sessions between applications
+- Examples: NetBIOS, RPC
+
+## Layer 6: Presentation
+- Translates data between networking service and application
+- Examples: JPEG, MPEG, SSL
+
+## Layer 7: Application
+- Interface for user applications
+- Examples: HTTP, SMTP, FTP, DNS
+
+Important to remember: "Please Do Not Throw Sausage Pizza Away" (Physical, Data Link, Network, Transport, Session, Presentation, Application)</textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div id="chat" class="tab-content">
+            <h2 class="section-title">AI Networking Assistant</h2>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <span class="chat-header-icon">🤖</span>
+                    NetLearn Assistant
+                </div>
+                <div class="chat-messages">
+                    <div class="message ai">
+                        <div class="message-content">
+                            Hello! I'm your NetLearn AI assistant. I'm here to help with any networking questions you have. What would you like to learn about today?
+                        </div>
+                    </div>
+                    <div class="message user">
+                        <div class="message-content">
+                            What's the difference between TCP and UDP?
+                        </div>
+                    </div>
+                    <div class="message ai">
+                        <div class="message-content">
+                            Great question! TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are both transport layer protocols, but they work differently:
+                            <br><br>
+                            <strong>TCP:</strong>
+                            <br>- Connection-oriented protocol
+                            <br>- Guarantees delivery of data packets
+                            <br>- Performs error checking and recovery
+                            <br>- Maintains packet sequence
+                            <br>- Examples: Web browsing (HTTP), email (SMTP), file transfers (FTP)
+                            <br><br>
+                            <strong>UDP:</strong>
+                            <br>- Connectionless protocol
+                            <br>- No guarantee of delivery
+                            <br>- No error recovery
+                            <br>- Faster than TCP due to less overhead
+                            <br>- Examples: Video streaming, online gaming, DNS lookups
+                            <br><br>
+                            Would you like me to explain more about when to use each protocol?
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" placeholder="Type your networking question here...">
+                    <button class="chat-send-btn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p>&copy; 2025 NetLearn Virtual Classroom. All rights reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    
     <script>
-        // Navigation
-        const navButtons = document.querySelectorAll('nav button');
-        const sections = document.querySelectorAll('.section');
-        
-        function navigateTo(section) {
-            // Deactivate all sections and nav buttons
-            sections.forEach(s => s.classList.remove('active'));
-            navButtons.forEach(b => b.classList.remove('active'));
-            
-            // Activate the requested section and nav button
-            document.getElementById(`${section}-section`).classList.add('active');
-            document.getElementById(`nav-${section}`).classList.add('active');
-        }
-        
-        navButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const section = this.id.replace('nav-', '');
-                navigateTo(section);
+        // Tab Functionality
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Deactivate all tabs
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Activate clicked tab
+                button.classList.add('active');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
             });
         });
         
-        // Learning Center
-        function showTopicSelection() {
-            document.getElementById('topic-selection').style.display = 'block';
-            document.getElementById('lesson-content').style.display = 'none';
-        }
-        
-        function loadLesson(lessonId) {
-            document.getElementById('topic-selection').style.display = 'none';
-            document.getElementById('lesson-content').style.display = 'block';
-            
-            // Content for each lesson
-            const lessons = {
-                'intro': {
-                    title: 'Introduction to Computer Networks',
-                    content: `
-                        <h3>What is a Computer Network?</h3>
-                        <p>A computer network is a collection of computing devices that are connected together to communicate and share resources. These connections can be physical (like cables) or wireless (like Wi-Fi or Bluetooth).</p>
-                        
-                        <h3>Why Do We Need Networks?</h3>
-                        <p>Networks allow us to:</p>
-                        <ul>
-                            <li>Share resources like printers and files</li>
-                            <li>Communicate through email, messaging, and video calls</li>
-                            <li>Access services and information from anywhere in the world</li>
-                            <li>Play multiplayer games and collaborate on projects</li>
-                        </ul>
-                        
-                        <h3>Types of Networks</h3>
-                        <h4>Based on Scale:</h4>
-                        <ul>
-                            <li><strong>LAN (Local Area Network)</strong>: Connects devices in a limited area like a home, office, or building</li>
-                            <li><strong>WAN (Wide Area Network)</strong>: Spans a large geographical area, often connecting multiple LANs</li>
-                            <li><strong>MAN (Metropolitan Area Network)</strong>: Larger than a LAN but smaller than a WAN, typically spanning a city</li>
-                            <li><strong>PAN (Personal Area Network)</strong>: Connects personal devices within close proximity</li>
-                        </ul>
-                        
-                        <h4>Based on Architecture:</h4>
-                        <ul>
-                            <li><strong>Client-Server</strong>: Centralized servers provide services to client computers</li>
-                            <li><strong>Peer-to-Peer</strong>: All devices have equal capabilities and responsibilities</li>
-                        </ul>
-                        
-                        <h3>Network Components</h3>
-                        <ul>
-                            <li><strong>Nodes</strong>: Any device connected to the network (computers, servers, IoT devices)</li>
-                            <li><strong>Network Interfaces</strong>: Hardware that connects devices to the network</li>
-                            <li><strong>Transmission Media</strong>: The physical connections (cables, wireless signals)</li>
-                            <li><strong>Switches & Routers</strong>: Devices that direct traffic within and between networks</li>
-                            <li><strong>Protocols</strong>: Rules that govern how data is formatted and transmitted</li>
-                        </ul>
-                        
-                        <h3>The Internet: The Network of Networks</h3>
-                        <p>The Internet is a global system of interconnected computer networks that use standardized communication protocols (primarily TCP/IP) to connect devices worldwide. It enables services like the World Wide Web, email, file sharing, and more.</p>
-                    `
-                },
-                'osi': {
-                    title: 'The OSI Model',
-                    content: `
-                        <h3>What is the OSI Model?</h3>
-                        <p>The Open Systems Interconnection (OSI) model is a conceptual framework used to understand network interactions. It divides network communication into seven distinct layers, each handling specific functions.</p>
-                        
-                        <h3>The Seven Layers</h3>
-                        
-                        <h4>7. Application Layer</h4>
-                        <p><strong>Function:</strong> Provides network services directly to user applications</p>
-                        <p><strong>Protocols:</strong> HTTP, FTP, SMTP, DNS, Telnet</p>
-                        <p><strong>PDU (Protocol Data Unit):</strong> Data</p>
-                        <p><strong>Example:</strong> When you use a web browser, the application layer handles the HTTP protocol.</p>
-                        
-                        <h4>6. Presentation Layer</h4>
-                        <p><strong>Function:</strong> Translates data between application format and network format, handles encryption/decryption, compression</p>
-                        <p><strong>Protocols:</strong> SSL/TLS, JPEG, MPEG, ASCII, Unicode</p>
-                        <p><strong>PDU:</strong> Data</p>
-                        <p><strong>Example:</strong> Converting an image into a format suitable for transmission.</p>
-                        
-                        <h4>5. Session Layer</h4>
-                        <p><strong>Function:</strong> Establishes, manages, and terminates connections between applications</p>
-                        <p><strong>Protocols:</strong> NetBIOS, RPC, SIP</p>
-                        <p><strong>PDU:</strong> Data</p>
-                        <p><strong>Example:</strong> Managing the communication session for a video call.</p>
-                        
-                        <h4>4. Transport Layer</h4>
-                        <p><strong>Function:</strong> Provides reliable data transfer, segmentation, flow control, and error correction</p>
-                        <p><strong>Protocols:</strong> TCP, UDP</p>
-                        <p><strong>PDU:</strong> Segment (TCP) or Datagram (UDP)</p>
-                        <p><strong>Example:</strong> Ensuring all parts of an email arrive completely and in order.</p>
-                        
-                        <h4>3. Network Layer</h4>
-                        <p><strong>Function:</strong> Handles logical addressing, routing, and traffic control</p>
-                        <p><strong>Protocols:</strong> IP, ICMP, OSPF, BGP</p>
-                        <p><strong>PDU:</strong> Packet</p>
-                        <p><strong>Example:</strong> Determining the best path for data to travel from your computer to a website's server.</p>
-                        
-                        <h4>2. Data Link Layer</h4>
-                        <p><strong>Function:</strong> Provides node-to-node data transfer, handles physical addressing, error detection, and flow control</p>
-                        <p><strong>Protocols:</strong> Ethernet, PPP, Frame Relay, HDLC</p>
-                        <p><strong>PDU:</strong> Frame</p>
-                        <p><strong>Example:</strong> Wi-Fi transmitting data between your laptop and router.</p>
-                        
-                        <h4>1. Physical Layer</h4>
-                        <p><strong>Function:</strong> Transmits raw bit stream over physical medium, defines hardware specifications</p>
-                        <p><strong>Protocols:</strong> USB, Bluetooth, IEEE 802.11, DSL</p>
-                        <p><strong>PDU:</strong> Bit</p>
-                        <p><strong>Example:</strong> The electrical signals traveling through an Ethernet cable.</p>
-                        
-                        <h3>Data Encapsulation</h3>
-                        <p>As data travels down the OSI layers from sender to network:</p>
-                        <ol>
-                            <li>Each layer adds its own header (and sometimes trailer) to the data</li>
-                            <li>This process is called encapsulation</li>
-                            <li>At the receiving end, each layer removes its corresponding header/trailer (decapsulation)</li>
-                        </ol>
-                        
-                        <h3>Why is the OSI Model Important?</h3>
-                        <ul>
-                            <li>Standardizes components and interfaces for compatibility</li>
-                            <li>Simplifies troubleshooting by isolating network problems to specific layers</li>
-                            <li>Facilitates modular engineering of network systems</li>
-                            <li>Provides a common language for networking professionals</li>
-                        </ul>
-                    `
-                },
-                'tcp-ip': {
-                    title: 'TCP/IP Protocol Suite',
-                    content: `
-                        <h3>What is TCP/IP?</h3>
-                        <p>The Transmission Control Protocol/Internet Protocol (TCP/IP) is the foundational communication protocol suite of the Internet. Unlike the theoretical OSI model, TCP/IP is a practical implementation used in real-world networking.</p>
-                        
-                        <h3>The TCP/IP Model Layers</h3>
-                        
-                        <h4>4. Application Layer</h4>
-                        <p><strong>Corresponds to OSI Layers:</strong> 5 (Session), 6 (Presentation), and 7 (Application)</p>
-                        <p><strong>Function:</strong> Provides network services to applications</p>
-                        <p><strong>Key Protocols:</strong></p>
-                        <ul>
-                            <li><strong>HTTP/HTTPS:</strong> Web browsing</li>
-                            <li><strong>FTP:</strong> File transfer</li>
-                            <li><strong>SMTP/POP3/IMAP:</strong> Email</li>
-                            <li><strong>DNS:</strong> Domain name resolution</li>
-                            <li><strong>SSH:</strong> Secure remote access</li>
-                            <li><strong>Telnet:</strong> Remote terminal access</li>
-                        </ul>
-                        
-                        <h4>3. Transport Layer</h4>
-                        <p><strong>Corresponds to OSI Layer:</strong> 4 (Transport)</p>
-                        <p><strong>Function:</strong> Provides end-to-end communication, reliability, flow control</p>
-                        <p><strong>Key Protocols:</strong></p>
+        // Note Item Selection
+        document.querySelectorAll('.note-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.note-item').forEach(note => {
+                    note.classList.remove('active');
+                });
+                item.classList.add('active');
+                
+                // In a real application, we would load the note content here
+                // This is a simplified demo
+                document.querySelector('.note-title').value = item.textContent;
+                
+                // Sample notes content based on selection
+                const noteContents = {
+                    "OSI Model Notes": `# OSI Model Layers
+
+## Layer 1: Physical
+- Deals with the physical connection between devices
+- Transmits raw bit stream over physical medium
+- Examples: Cables, switches, network adapters
+
+## Layer 2: Data Link
+- Provides node-to-node data transfer
+- Detects and possibly corrects errors from physical layer
+- Examples: Ethernet, PPP, Switch, Bridge
+
+## Layer 3: Network
+- Routes data packets between networks
+- Handles addressing and path determination
+- Examples: IP, ICMP, Routers
+
+## Layer 4: Transport
+- Provides end-to-end communication control
+- Examples: TCP, UDP
+
+## Layer 5: Session
+- Manages sessions between applications
+- Examples: NetBIOS, RPC
+
+## Layer 6: Presentation
+- Translates data between networking service and application
+- Examples: JPEG, MPEG, SSL
+
+## Layer 7: Application
+- Interface for user applications
+- Examples: HTTP, SMTP, FTP, DNS
+
+Important to remember: "Please Do Not Throw Sausage Pizza Away" (Physical, Data Link, Network, Transport, Session, Presentation, Application)`,
+                    "TCP/IP Protocol Suite": `# TCP/IP Protocol Stack
+
+## Application Layer
+- Corresponds to OSI layers 5-7
+- Protocols: HTTP, FTP, SMTP, DNS, DHCP, Telnet
+
+## Transport Layer
+- Corresponds to OSI layer 4
+- Protocols: TCP, UDP
+- TCP provides reliable, connection-oriented service
+- UDP provides unreliable, connectionless service
+
+## Internet Layer
+- Corresponds to OSI layer 3
+- Protocols: IP, ICMP, ARP
+- Handles logical addressing and routing
+
+## Network Interface Layer
+- Corresponds to OSI layers 1-2
+- Examples: Ethernet, Wi-Fi, PPP
+- Handles physical addressing and media access
+
+## Key Differences from OSI Model
+- TCP/IP is simpler with 4 layers instead of 7
+- TCP/IP is more practical and widely implemented
+- OSI is more theoretical but useful for understanding network concepts`,
+                    "Subnetting Cheat Sheet": `# Subnetting Quick Reference
+
+## CIDR Notation
+- /24 = 255.255.255.0 (Class C) - 256 addresses, 254 hosts
+- /25 = 255.255.255.128 - 128 addresses, 126 hosts
+- /26 = 255.255.255.192 - 64 addresses, 62 hosts
+- /27 = 255.255.255.224 - 32 addresses, 30 hosts
+- /28 = 255.255.255.240 - 16 addresses, 14 hosts
+- /29 = 255.255.255.248 - 8 addresses, 6 hosts
+- /30 = 255.255.255.252 - 4 addresses, 2 hosts
+
+## Subnet Mask Calculations
+- 2^n (where n is number of host bits) = number of addresses
+- Number of hosts = 2^n - 2 (subtract network and broadcast addresses)
+
+## Subnet Mask Increments
+- /24 (256): 0, 256, 512...
+- /25 (128): 0, 128, 256...
+- /26 (64): 0, 64, 128, 192...
+- /27 (32): 0, 32, 64, 96...
+- /28 (16): 0, 16, 32, 48...
+
+## Formula for Subnets
+- Number of subnets = 2^s (where s is subnet bits)
+- Block size = 2^h (where h is host bits)
+
+## Quick Tips
+- Network address: First address in subnet range
+- Broadcast address: Last address in subnet range
+- First usable host: Network address + 1
+- Last usable host: Broadcast address - 1
