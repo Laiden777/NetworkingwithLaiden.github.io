@@ -5,83 +5,961 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NetLearn - Virtual Networking Classroom</title>
     <style>
-        /* [Previous CSS styles remain exactly the same] */
+        :root {
+            --primary: #3498db;
+            --secondary: #2980b9;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --danger: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 0.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: var(--secondary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+        }
+        
+        .hero-content {
+            flex: 1;
+            padding-right: 2rem;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn:hover {
+            background-color: #e67e22;
+        }
+        
+        .section-title {
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+        
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .learning-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .module-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .module-image {
+            height: 150px;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .module-content {
+            padding: 1.5rem;
+        }
+        
+        .module-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .module-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .quiz-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .quiz-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        
+        .notes-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+        
+        .notes-list {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 500px;
+            overflow-y: auto;
+        }
+        
+        .note-item {
+            padding: 0.8rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .note-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .note-item.active {
+            background-color: #e3f2fd;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .note-editor {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .note-title {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .note-content {
+            width: 100%;
+            height: 400px;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+            font-family: inherit;
+        }
+        
+        .chat-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+        
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-header-icon {
+            margin-right: 0.5rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .message {
+            display: flex;
+            max-width: 80%;
+        }
+        
+        .message.user {
+            align-self: flex-end;
+            justify-content: flex-end;
+        }
+        
+        .message.ai {
+            align-self: flex-start;
+            justify-content: flex-start;
+        }
+        
+        .message-content {
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+        }
+        
+        .message.ai .message-content {
+            background-color: #f1f0f0;
+            border-radius: 0 8px 8px 8px;
+        }
+        
+        .message.user .message-content {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 8px 0 8px 8px;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .chat-send-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .chat-send-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .typing-indicator {
+            display: none;
+            padding: 0.5rem 1rem;
+            background-color: #f1f0f0;
+            border-radius: 8px;
+            align-self: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1s infinite ease-in-out;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .notes-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .footer-links a {
+                margin: 0.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- [Previous HTML structure remains the same until the learning modules section] -->
+    <header>
+        <nav>
+            <div class="logo">
+                <span class="logo-icon">🌐</span>
+                NetLearn
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link" data-tab="learn">Learn</a>
+                <a href="#" class="nav-link" data-tab="quiz">Tests & Quizzes</a>
+                <a href="#" class="nav-link" data-tab="notes">My Notes</a>
+                <a href="#" class="nav-link" data-tab="chat">AI Assistant</a>
+            </div>
+        </nav>
+    </header>
     
-    <div id="learn" class="tab-content active">
-        <h2 class="section-title">Learning Modules</h2>
-        <div class="learning-modules">
-            <div class="module-card" data-topic="network fundamentals">
-                <div class="module-image" style="background-color: #3498db;">
-                    Network Fundamentals
+    <div class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Master Computer Networking with AI Teachers</h1>
+                <p>Welcome to NetLearn, your interactive virtual classroom for learning computer system networking. Our AI teachers provide personalized education, instant feedback, and expert guidance on networking concepts.</p>
+                <a href="#" class="btn" data-tab="learn">Start Learning Now</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://via.placeholder.com/500x300?text=Network+Classroom" alt="Network Classroom" />
+            </div>
+        </section>
+        
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">👩‍🏫</div>
+                <h3>AI Teachers</h3>
+                <p>Learn from our advanced AI teachers who provide personalized instruction and answer your networking questions 24/7.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Interactive Quizzes</h3>
+                <p>Test your knowledge with adaptive quizzes that focus on your weak areas and help reinforce your learning.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Smart Notes</h3>
+                <p>Organize your thoughts with our intelligent note-taking system that links concepts and helps you build your knowledge base.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Networking Assistant</h3>
+                <p>Chat with our specialized networking assistant to get instant help on any networking topic or troubleshooting guidance.</p>
+            </div>
+        </section>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="learn">Learning Modules</button>
+            <button class="tab-btn" data-tab="quiz">Tests & Quizzes</button>
+            <button class="tab-btn" data-tab="notes">My Notes</button>
+            <button class="tab-btn" data-tab="chat">AI Assistant</button>
+        </div>
+        
+        <div id="learn" class="tab-content active">
+            <h2 class="section-title">Learning Modules</h2>
+            <div class="learning-modules">
+                <div class="module-card" data-topic="network fundamentals">
+                    <div class="module-image" style="background-color: #3498db;">
+                        Network Fundamentals
+                    </div>
+                    <div class="module-content">
+                        <h3>Network Fundamentals</h3>
+                        <p>Learn the core concepts of computer networking including OSI model, TCP/IP, and basic network topologies.</p>
+                        <button class="btn learn-btn">Start Learning</button>
+                    </div>
                 </div>
-                <div class="module-content">
-                    <h3>Network Fundamentals</h3>
-                    <p>Learn the core concepts of computer networking including OSI model, TCP/IP, and basic network topologies.</p>
-                    <button class="btn learn-btn">Start Learning</button>
+                <div class="module-card" data-topic="routing and switching">
+                    <div class="module-image" style="background-color: #e74c3c;">
+                        Routing & Switching
+                    </div>
+                    <div class="module-content">
+                        <h3>Routing & Switching</h3>
+                        <p>Understand how data is routed across networks and how switches manage local network traffic.</p>
+                        <button class="btn learn-btn">Start Learning</button>
+                    </div>
+                </div>
+                <div class="module-card" data-topic="network security">
+                    <div class="module-image" style="background-color: #2ecc71;">
+                        Network Security
+                    </div>
+                    <div class="module-content">
+                        <h3>Network Security</h3>
+                        <p>Explore essential security concepts including firewalls, encryption, VPNs, and threat detection systems.</p>
+                        <button class="btn learn-btn">Start Learning</button>
+                    </div>
+                </div>
+                <div class="module-card" data-topic="wireless networking">
+                    <div class="module-image" style="background-color: #9b59b6;">
+                        Wireless Networking
+                    </div>
+                    <div class="module-content">
+                        <h3>Wireless Networking</h3>
+                        <p>Master wireless protocols, standards, and security measures for modern wireless networks.</p>
+                        <button class="btn learn-btn">Start Learning</button>
+                    </div>
+                </div>
+                <div class="module-card" data-topic="cloud networking">
+                    <div class="module-image" style="background-color: #f39c12;">
+                        Cloud Networking
+                    </div>
+                    <div class="module-content">
+                        <h3>Cloud Networking</h3>
+                        <p>Discover how networking works in cloud environments and best practices for cloud infrastructure.</p>
+                        <button class="btn learn-btn">Start Learning</button>
+                    </div>
+                </div>
+                <div class="module-card" data-topic="network automation">
+                    <div class="module-image" style="background-color: #1abc9c;">
+                        Network Automation
+                    </div>
+                    <div class="module-content">
+                        <h3>Network Automation</h3>
+                        <p>Learn how to automate network tasks using scripting, APIs, and infrastructure as code.</p>
+                        <button class="btn learn-btn">Start Learning</button>
+                    </div>
                 </div>
             </div>
-            <div class="module-card" data-topic="routing and switching">
-                <div class="module-image" style="background-color: #e74c3c;">
-                    Routing & Switching
+        </div>
+        
+        <div id="quiz" class="tab-content">
+            <h2 class="section-title">Tests & Quizzes</h2>
+            <div class="quiz-list">
+                <div class="quiz-card">
+                    <h3>Network Fundamentals Quiz</h3>
+                    <div class="quiz-meta">
+                        <span>10 questions</span>
+                        <span>15 minutes</span>
+                    </div>
+                    <p>Test your understanding of basic networking concepts, protocols, and the OSI model.</p>
+                    <button class="btn">Start Quiz</button>
                 </div>
-                <div class="module-content">
-                    <h3>Routing & Switching</h3>
-                    <p>Understand how data is routed across networks and how switches manage local network traffic.</p>
-                    <button class="btn learn-btn">Start Learning</button>
+                <div class="quiz-card">
+                    <h3>IP Addressing & Subnetting</h3>
+                    <div class="quiz-meta">
+                        <span>15 questions</span>
+                        <span>20 minutes</span>
+                    </div>
+                    <p>Challenge yourself with questions on IP addressing, subnetting, and CIDR notation.</p>
+                    <button class="btn">Start Quiz</button>
+                </div>
+                <div class="quiz-card">
+                    <h3>Routing Protocols Test</h3>
+                    <div class="quiz-meta">
+                        <span>12 questions</span>
+                        <span>18 minutes</span>
+                    </div>
+                    <p>Evaluate your knowledge of various routing protocols like OSPF, EIGRP, and BGP.</p>
+                    <button class="btn">Start Quiz</button>
+                </div>
+                <div class="quiz-card">
+                    <h3>Network Security Assessment</h3>
+                    <div class="quiz-meta">
+                        <span>20 questions</span>
+                        <span>30 minutes</span>
+                    </div>
+                    <p>Test your understanding of network security principles, tools, and best practices.</p>
+                    <button class="btn">Start Quiz</button>
+                </div>
+                <div class="quiz-card">
+                    <h3>Wireless Networking Quiz</h3>
+                    <div class="quiz-meta">
+                        <span>15 questions</span>
+                        <span>20 minutes</span>
+                    </div>
+                    <p>Demonstrate your knowledge of wireless standards, protocols, and security measures.</p>
+                    <button class="btn">Start Quiz</button>
+                </div>
+                <div class="quiz-card">
+                    <h3>Final Certification Exam</h3>
+                    <div class="quiz-meta">
+                        <span>50 questions</span>
+                        <span>90 minutes</span>
+                    </div>
+                    <p>Comprehensive exam covering all aspects of networking to earn your NetLearn certification.</p>
+                    <button class="btn">Start Exam</button>
                 </div>
             </div>
-            <div class="module-card" data-topic="network security">
-                <div class="module-image" style="background-color: #2ecc71;">
-                    Network Security
+        </div>
+        
+        <div id="notes" class="tab-content">
+            <h2 class="section-title">My Notes</h2>
+            <div class="notes-container">
+                <div class="notes-list">
+                    <div class="note-item active">OSI Model Notes</div>
+                    <div class="note-item">TCP/IP Protocol Suite</div>
+                    <div class="note-item">Subnetting Cheat Sheet</div>
+                    <div class="note-item">Routing Protocol Comparison</div>
+                    <div class="note-item">Network Security Best Practices</div>
+                    <div class="note-item">Wireless Standards Overview</div>
                 </div>
-                <div class="module-content">
-                    <h3>Network Security</h3>
-                    <p>Explore essential security concepts including firewalls, encryption, VPNs, and threat detection systems.</p>
-                    <button class="btn learn-btn">Start Learning</button>
+                <div class="note-editor">
+                    <input type="text" class="note-title" value="OSI Model Notes">
+                    <textarea class="note-content"># OSI Model Layers
+
+## Layer 1: Physical
+- Deals with the physical connection between devices
+- Transmits raw bit stream over physical medium
+- Examples: Cables, switches, network adapters
+
+## Layer 2: Data Link
+- Provides node-to-node data transfer
+- Detects and possibly corrects errors from physical layer
+- Examples: Ethernet, PPP, Switch, Bridge
+
+## Layer 3: Network
+- Routes data packets between networks
+- Handles addressing and path determination
+- Examples: IP, ICMP, Routers
+
+## Layer 4: Transport
+- Provides end-to-end communication control
+- Examples: TCP, UDP
+
+## Layer 5: Session
+- Manages sessions between applications
+- Examples: NetBIOS, RPC
+
+## Layer 6: Presentation
+- Translates data between networking service and application
+- Examples: JPEG, MPEG, SSL
+
+## Layer 7: Application
+- Interface for user applications
+- Examples: HTTP, SMTP, FTP, DNS
+
+Important to remember: "Please Do Not Throw Sausage Pizza Away" (Physical, Data Link, Network, Transport, Session, Presentation, Application)</textarea>
                 </div>
             </div>
-            <div class="module-card" data-topic="wireless networking">
-                <div class="module-image" style="background-color: #9b59b6;">
-                    Wireless Networking
+        </div>
+        
+        <div id="chat" class="tab-content">
+            <h2 class="section-title">AI Networking Assistant</h2>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <span class="chat-header-icon">🤖</span>
+                    NetLearn Assistant
                 </div>
-                <div class="module-content">
-                    <h3>Wireless Networking</h3>
-                    <p>Master wireless protocols, standards, and security measures for modern wireless networks.</p>
-                    <button class="btn learn-btn">Start Learning</button>
+                <div class="chat-messages">
+                    <div class="message ai">
+                        <div class="message-content">
+                            Hello! I'm your NetLearn AI assistant. I'm here to help with any networking questions you have. What would you like to learn about today?
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="module-card" data-topic="cloud networking">
-                <div class="module-image" style="background-color: #f39c12;">
-                    Cloud Networking
+                <div class="typing-indicator" id="typingIndicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                <div class="module-content">
-                    <h3>Cloud Networking</h3>
-                    <p>Discover how networking works in cloud environments and best practices for cloud infrastructure.</p>
-                    <button class="btn learn-btn">Start Learning</button>
-                </div>
-            </div>
-            <div class="module-card" data-topic="network automation">
-                <div class="module-image" style="background-color: #1abc9c;">
-                    Network Automation
-                </div>
-                <div class="module-content">
-                    <h3>Network Automation</h3>
-                    <p>Learn how to automate network tasks using scripting, APIs, and infrastructure as code.</p>
-                    <button class="btn learn-btn">Start Learning</button>
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type your networking question here...">
+                    <button class="chat-send-btn" id="sendBtn">Send</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- [Rest of the HTML remains the same] -->
-
+    
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p>&copy; 2025 NetLearn Virtual Classroom. All rights reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    
     <script>
-        // [Previous JavaScript remains the same until the knowledge base section]
+        // Tab Functionality
+        function switchTab(tabId) {
+            // Deactivate all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Activate selected tab
+            document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            // Scroll to the top of the tab content
+            document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Set up tab buttons
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                switchTab(tabId);
+            });
+        });
+        
+        // Set up navigation links
+        document.querySelectorAll('.nav-link, .btn[data-tab]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tabId = link.getAttribute('data-tab');
+                if (tabId) {
+                    switchTab(tabId);
+                }
+            });
+        });
+        
+        // Note Item Selection
+        document.querySelectorAll('.note-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.note-item').forEach(note => {
+                    note.classList.remove('active');
+                });
+                item.classList.add('active');
+                
+                // In a real application, we would load the note content here
+                // This is a simplified demo
+                document.querySelector('.note-title').value = item.textContent;
+                
+                // Sample notes content based on selection
+                const noteContents = {
+                    "OSI Model Notes": `# OSI Model Layers
 
+## Layer 1: Physical
+- Deals with the physical connection between devices
+- Transmits raw bit stream over physical medium
+- Examples: Cables, switches, network adapters
+
+## Layer 2: Data Link
+- Provides node-to-node data transfer
+- Detects and possibly corrects errors from physical layer
+- Examples: Ethernet, PPP, Switch, Bridge
+
+## Layer 3: Network
+- Routes data packets between networks
+- Handles addressing and path determination
+- Examples: IP, ICMP, Routers
+
+## Layer 4: Transport
+- Provides end-to-end communication control
+- Examples: TCP, UDP
+
+## Layer 5: Session
+- Manages sessions between applications
+- Examples: NetBIOS, RPC
+
+## Layer 6: Presentation
+- Translates data between networking service and application
+- Examples: JPEG, MPEG, SSL
+
+## Layer 7: Application
+- Interface for user applications
+- Examples: HTTP, SMTP, FTP, DNS
+
+Important to remember: "Please Do Not Throw Sausage Pizza Away" (Physical, Data Link, Network, Transport, Session, Presentation, Application)`,
+                    "TCP/IP Protocol Suite": `# TCP/IP Protocol Stack
+
+## Application Layer
+- Corresponds to OSI layers 5-7
+- Protocols: HTTP, FTP, SMTP, DNS, DHCP, Telnet
+
+## Transport Layer
+- Corresponds to OSI layer 4
+- Protocols: TCP, UDP
+- TCP provides reliable, connection-oriented service
+- UDP provides unreliable, connectionless service
+
+## Internet Layer
+- Corresponds to OSI layer 3
+- Protocols: IP, ICMP, ARP
+- Handles logical addressing and routing
+
+## Network Interface Layer
+- Corresponds to OSI layers 1-2
+- Examples: Ethernet, Wi-Fi, PPP
+- Handles physical addressing and media access
+
+## Key Differences from OSI Model
+- TCP/IP is simpler with 4 layers instead of 7
+- TCP/IP is more practical and widely implemented
+- OSI is more theoretical but useful for understanding network concepts`,
+                    "Subnetting Cheat Sheet": `# Subnetting Quick Reference
+
+## CIDR Notation
+- /24 = 255.255.255.0 (Class C) - 256 addresses, 254 hosts
+- /25 = 255.255.255.128 - 128 addresses, 126 hosts
+- /26 = 255.255.255.192 - 64 addresses, 62 hosts
+- /27 = 255.255.255.224 - 32 addresses, 30 hosts
+- /28 = 255.255.255.240 - 16 addresses, 14 hosts
+- /29 = 255.255.255.248 - 8 addresses, 6 hosts
+- /30 = 255.255.255.252 - 4 addresses, 2 hosts
+
+## Subnet Mask Calculations
+- 2^n (where n is number of host bits) = number of addresses
+- Number of hosts = 2^n - 2 (subtract network and broadcast addresses)
+
+## Subnet Mask Increments
+- /24 (256): 0, 256, 512...
+- /25 (128): 0, 128, 256...
+- /26 (64): 0, 64, 128, 192...
+- /27 (32): 0, 32, 64, 96...
+- /28 (16): 0, 16, 32, 48...
+
+## Formula for Subnets
+- Number of subnets = 2^s (where s is subnet bits)
+- Block size = 2^h (where h is host bits)
+
+## Quick Tips
+- Network address: First address in subnet range
+- Broadcast address: Last address in subnet range
+- First usable host: Network address + 1
+- Last usable host: Broadcast address - 1`
+                };
+                
+                document.querySelector('.note-content').value = noteContents[item.textContent] || '';
+            });
+        });
+        
+        // Chatbot Functionality
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.querySelector('.chat-messages');
+        const typingIndicator = document.getElementById('typingIndicator');
+        
         // Enhanced knowledge base with module-specific information
         const knowledgeBase = {
             "network fundamentals": {
@@ -194,17 +1072,86 @@
                     const followUpDiv = document.createElement('div');
                     followUpDiv.className = 'follow-up-questions';
                     followUpDiv.style.marginTop = '10px';
+                    followUpDiv.style.display = 'flex';
+                    followUpDiv.style.flexWrap = 'wrap';
+                    followUpDiv.style.gap = '5px';
                     
                     knowledge.followUp.forEach(question => {
                         const btn = document.createElement('button');
                         btn.textContent = question;
                         btn.className = 'follow-up-btn';
-                        btn.style.margin = '5px';
                         btn.style.padding = '5px 10px';
                         btn.style.backgroundColor = '#f1f0f0';
                         btn.style.border = 'none';
                         btn.style.borderRadius = '4px';
                         btn.style.cursor = 'pointer';
+                        btn.style.fontSize = '0.9rem';
+                        
+                        btn.addEventListener('click', () => {
+                            chatInput.value = question;
+                            sendMessage();
+                        });
+                        
+                        followUpDiv.appendChild(btn);
+                    });
+                    
+                    document.querySelector('.chat-messages').appendChild(followUpDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 1500);
+        }
+
+        // Send message function
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            chatInput.value = '';
+            
+            // Show typing indicator
+            typingIndicator.style.display = 'flex';
+            
+            // Simulate AI thinking
+            setTimeout(() => {
+                typingIndicator.style.display = 'none';
+                
+                // Find the best response
+                const lowerMessage = message.toLowerCase();
+                let response = knowledgeBase['default'].response;
+                let followUp = [];
+                
+                for (const [key, value] of Object.entries(knowledgeBase)) {
+                    if (lowerMessage.includes(key.toLowerCase())) {
+                        response = value.response;
+                        followUp = value.followUp || [];
+                        break;
+                    }
+                }
+                
+                // Add AI response
+                addMessage(response, 'ai');
+                
+                // Add follow-up questions if available
+                if (followUp.length > 0) {
+                    const followUpDiv = document.createElement('div');
+                    followUpDiv.className = 'follow-up-questions';
+                    followUpDiv.style.marginTop = '10px';
+                    followUpDiv.style.display = 'flex';
+                    followUpDiv.style.flexWrap = 'wrap';
+                    followUpDiv.style.gap = '5px';
+                    
+                    followUp.forEach(question => {
+                        const btn = document.createElement('button');
+                        btn.textContent = question;
+                        btn.className = 'follow-up-btn';
+                        btn.style.padding = '5px 10px';
+                        btn.style.backgroundColor = '#f1f0f0';
+                        btn.style.border = 'none';
+                        btn.style.borderRadius = '4px';
+                        btn.style.cursor = 'pointer';
+                        btn.style.fontSize = '0.9rem';
                         
                         btn.addEventListener('click', () => {
                             chatInput.value = question;
@@ -216,10 +1163,38 @@
                     
                     document.querySelector('.chat-messages').appendChild(followUpDiv);
                 }
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 1500);
         }
-
-        // [Rest of the JavaScript remains the same]
+        
+        // Add message to chat
+        function addMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+            
+            messageDiv.appendChild(contentDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Event listeners for chat
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Initialize with first tab active
+        switchTab('learn');
     </script>
 </body>
 </html>
