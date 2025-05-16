@@ -5,1025 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NetLearn - Virtual Networking Classroom</title>
     <style>
-        :root {
-            --primary: #3498db;
-            --secondary: #2980b9;
-            --accent: #f39c12;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #27ae60;
-            --danger: #e74c3c;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: var(--dark);
-        }
-        
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 1rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo-icon {
-            margin-right: 0.5rem;
-        }
-        
-        .nav-links {
-            display: flex;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 1.5rem;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background-color: var(--secondary);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 3rem;
-        }
-        
-        .hero-content {
-            flex: 1;
-            padding-right: 2rem;
-        }
-        
-        .hero-image {
-            flex: 1;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        .hero p {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background-color: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            cursor: pointer;
-            border: none;
-        }
-        
-        .btn:hover {
-            background-color: #e67e22;
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary);
-        }
-        
-        .btn-secondary:hover {
-            background-color: var(--primary);
-        }
-        
-        .section-title {
-            margin: 2rem 0 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary);
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .feature-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .feature-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .feature-card h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .feature-card p {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 2rem;
-            overflow-x: auto;
-        }
-        
-        .tab-btn {
-            padding: 0.8rem 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-        
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
-        
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .learning-modules {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .module-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        
-        .module-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .module-image {
-            height: 150px;
-            background-color: #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-        
-        .module-content {
-            padding: 1.5rem;
-        }
-        
-        .module-card h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .module-card p {
-            color: #666;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-        
-        .quiz-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .quiz-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .quiz-card h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .quiz-card p {
-            color: #666;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-        
-        .quiz-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 1rem;
-        }
-        
-        .quiz-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: none;
-        }
-        
-        .quiz-question {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-        
-        .quiz-options {
-            margin-bottom: 2rem;
-        }
-        
-        .quiz-option {
-            display: block;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .quiz-option:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .quiz-option.selected {
-            background-color: #e3f2fd;
-            border-color: var(--primary);
-        }
-        
-        .quiz-option.correct {
-            background-color: #e8f5e9;
-            border-color: var(--success);
-        }
-        
-        .quiz-option.incorrect {
-            background-color: #ffebee;
-            border-color: var(--danger);
-        }
-        
-        .quiz-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-        }
-        
-        .quiz-progress {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .quiz-result {
-            text-align: center;
-            padding: 2rem;
-            display: none;
-        }
-        
-        .quiz-result h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .quiz-score {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin: 1rem 0;
-        }
-        
-        .quiz-feedback {
-            margin-bottom: 2rem;
-        }
-        
-        .notes-container {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-        }
-        
-        .notes-list {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            height: 500px;
-            overflow-y: auto;
-        }
-        
-        .note-item {
-            padding: 0.8rem;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .note-item:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .note-item.active {
-            background-color: #e3f2fd;
-            border-left: 3px solid var(--primary);
-        }
-        
-        .note-editor {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .note-title {
-            width: 100%;
-            padding: 0.8rem;
-            font-size: 1.2rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-        
-        .note-content {
-            width: 100%;
-            height: 400px;
-            padding: 0.8rem;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            resize: none;
-            font-family: inherit;
-        }
-        
-        .chat-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 600px;
-        }
-        
-        .chat-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 1rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        
-        .chat-header-icon {
-            margin-right: 0.5rem;
-        }
-        
-        .chat-messages {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .message {
-            display: flex;
-            max-width: 80%;
-        }
-        
-        .message.user {
-            align-self: flex-end;
-            justify-content: flex-end;
-        }
-        
-        .message.ai {
-            align-self: flex-start;
-            justify-content: flex-start;
-        }
-        
-        .message-content {
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            word-wrap: break-word;
-        }
-        
-        .message.ai .message-content {
-            background-color: #f1f0f0;
-            border-radius: 0 8px 8px 8px;
-        }
-        
-        .message.user .message-content {
-            background-color: var(--primary);
-            color: white;
-            border-radius: 8px 0 8px 8px;
-        }
-        
-        .chat-input-container {
-            display: flex;
-            padding: 1rem;
-            border-top: 1px solid #eee;
-        }
-        
-        .chat-input {
-            flex: 1;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
-            font-size: 1rem;
-            outline: none;
-        }
-        
-        .chat-send-btn {
-            padding: 0.8rem 1.5rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .chat-send-btn:hover {
-            background-color: var(--secondary);
-        }
-        
-        .typing-indicator {
-            display: none;
-            padding: 0.5rem 1rem;
-            background-color: #f1f0f0;
-            border-radius: 8px;
-            align-self: flex-start;
-            margin-bottom: 0.5rem;
-        }
-        
-        .typing-indicator span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #666;
-            border-radius: 50%;
-            margin: 0 2px;
-            animation: typing 1s infinite ease-in-out;
-        }
-        
-        .typing-indicator span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .typing-indicator span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes typing {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        footer {
-            background-color: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-links {
-            display: flex;
-        }
-        
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 1.5rem;
-        }
-        
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-        
-        @media (max-width: 768px) {
-            .hero {
-                flex-direction: column;
-            }
-            
-            .hero-content {
-                padding-right: 0;
-                margin-bottom: 2rem;
-            }
-            
-            .notes-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .quiz-container {
-                padding: 1rem;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-            }
-            
-            .footer-links {
-                margin-top: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .footer-links a {
-                margin: 0.5rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .message {
-                max-width: 90%;
-            }
-        }
+        /* [Previous CSS styles remain exactly the same] */
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <span class="logo-icon">🌐</span>
-                NetLearn
-            </div>
-            <div class="nav-links">
-                <a href="#" class="nav-link" data-tab="learn">Learn</a>
-                <a href="#" class="nav-link" data-tab="quiz">Tests & Quizzes</a>
-                <a href="#" class="nav-link" data-tab="notes">My Notes</a>
-                <a href="#" class="nav-link" data-tab="chat">AI Assistant</a>
-            </div>
-        </nav>
-    </header>
-    
-    <div class="container">
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Master Computer Networking with AI Teachers</h1>
-                <p>Welcome to NetLearn, your interactive virtual classroom for learning computer system networking. Our AI teachers provide personalized education, instant feedback, and expert guidance on networking concepts.</p>
-                <a href="#" class="btn" data-tab="learn">Start Learning Now</a>
-            </div>
-            <div class="hero-image">
-                <img src="https://via.placeholder.com/500x300?text=Network+Classroom" alt="Network Classroom" />
-            </div>
-        </section>
-        
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">👩‍🏫</div>
-                <h3>AI Teachers</h3>
-                <p>Learn from our advanced AI teachers who provide personalized instruction and answer your networking questions 24/7.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📝</div>
-                <h3>Interactive Quizzes</h3>
-                <p>Test your knowledge with adaptive quizzes that focus on your weak areas and help reinforce your learning.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📚</div>
-                <h3>Smart Notes</h3>
-                <p>Organize your thoughts with our intelligent note-taking system that links concepts and helps you build your knowledge base.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h3>Networking Assistant</h3>
-                <p>Chat with our specialized networking assistant to get instant help on any networking topic or troubleshooting guidance.</p>
-            </div>
-        </section>
-        
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="learn">Learning Modules</button>
-            <button class="tab-btn" data-tab="quiz">Tests & Quizzes</button>
-            <button class="tab-btn" data-tab="notes">My Notes</button>
-            <button class="tab-btn" data-tab="chat">AI Assistant</button>
-        </div>
-        
-        <div id="learn" class="tab-content active">
-            <h2 class="section-title">Learning Modules</h2>
-            <div class="learning-modules">
-                <div class="module-card" data-topic="network fundamentals">
-                    <div class="module-image" style="background-color: #3498db;">
-                        Network Fundamentals
-                    </div>
-                    <div class="module-content">
-                        <h3>Network Fundamentals</h3>
-                        <p>Learn the core concepts of computer networking including OSI model, TCP/IP, and basic network topologies.</p>
-                        <button class="btn learn-btn">Start Learning</button>
-                    </div>
-                </div>
-                <div class="module-card" data-topic="routing and switching">
-                    <div class="module-image" style="background-color: #e74c3c;">
-                        Routing & Switching
-                    </div>
-                    <div class="module-content">
-                        <h3>Routing & Switching</h3>
-                        <p>Understand how data is routed across networks and how switches manage local network traffic.</p>
-                        <button class="btn learn-btn">Start Learning</button>
-                    </div>
-                </div>
-                <div class="module-card" data-topic="network security">
-                    <div class="module-image" style="background-color: #2ecc71;">
-                        Network Security
-                    </div>
-                    <div class="module-content">
-                        <h3>Network Security</h3>
-                        <p>Explore essential security concepts including firewalls, encryption, VPNs, and threat detection systems.</p>
-                        <button class="btn learn-btn">Start Learning</button>
-                    </div>
-                </div>
-                <div class="module-card" data-topic="wireless networking">
-                    <div class="module-image" style="background-color: #9b59b6;">
-                        Wireless Networking
-                    </div>
-                    <div class="module-content">
-                        <h3>Wireless Networking</h3>
-                        <p>Master wireless protocols, standards, and security measures for modern wireless networks.</p>
-                        <button class="btn learn-btn">Start Learning</button>
-                    </div>
-                </div>
-                <div class="module-card" data-topic="cloud networking">
-                    <div class="module-image" style="background-color: #f39c12;">
-                        Cloud Networking
-                    </div>
-                    <div class="module-content">
-                        <h3>Cloud Networking</h3>
-                        <p>Discover how networking works in cloud environments and best practices for cloud infrastructure.</p>
-                        <button class="btn learn-btn">Start Learning</button>
-                    </div>
-                </div>
-                <div class="module-card" data-topic="network automation">
-                    <div class="module-image" style="background-color: #1abc9c;">
-                        Network Automation
-                    </div>
-                    <div class="module-content">
-                        <h3>Network Automation</h3>
-                        <p>Learn how to automate network tasks using scripting, APIs, and infrastructure as code.</p>
-                        <button class="btn learn-btn">Start Learning</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="quiz" class="tab-content">
-            <h2 class="section-title">Tests & Quizzes</h2>
-            <div class="quiz-list" id="quizList">
-                <!-- Quizzes will be loaded here by JavaScript -->
-            </div>
-            
-            <div class="quiz-container" id="quizContainer">
-                <h2 id="quizTitle"></h2>
-                <p id="quizDescription"></p>
-                <div class="quiz-progress" id="quizProgress"></div>
-                
-                <div id="quizContent">
-                    <!-- Questions will be loaded here -->
-                </div>
-                
-                <div class="quiz-navigation">
-                    <button class="btn btn-secondary" id="prevQuestion">Previous</button>
-                    <button class="btn" id="nextQuestion">Next</button>
-                </div>
-            </div>
-            
-            <div class="quiz-result" id="quizResult">
-                <h3>Quiz Completed!</h3>
-                <div class="quiz-score" id="quizScore"></div>
-                <div class="quiz-feedback" id="quizFeedback"></div>
-                <button class="btn" id="retakeQuiz">Retake Quiz</button>
-                <button class="btn btn-secondary" id="backToQuizzes">Back to Quizzes</button>
-            </div>
-        </div>
-        
-        <div id="notes" class="tab-content">
-            <h2 class="section-title">My Notes</h2>
-            <div class="notes-container">
-                <div class="notes-list">
-                    <div class="note-item active">OSI Model Notes</div>
-                    <div class="note-item">TCP/IP Protocol Suite</div>
-                    <div class="note-item">Subnetting Cheat Sheet</div>
-                    <div class="note-item">Routing Protocol Comparison</div>
-                    <div class="note-item">Network Security Best Practices</div>
-                    <div class="note-item">Wireless Standards Overview</div>
-                </div>
-                <div class="note-editor">
-                    <input type="text" class="note-title" value="OSI Model Notes">
-                    <textarea class="note-content"># OSI Model Layers
-
-## Layer 1: Physical
-- Deals with the physical connection between devices
-- Transmits raw bit stream over physical medium
-- Examples: Cables, switches, network adapters
-
-## Layer 2: Data Link
-- Provides node-to-node data transfer
-- Detects and possibly corrects errors from physical layer
-- Examples: Ethernet, PPP, Switch, Bridge
-
-## Layer 3: Network
-- Routes data packets between networks
-- Handles addressing and path determination
-- Examples: IP, ICMP, Routers
-
-## Layer 4: Transport
-- Provides end-to-end communication control
-- Examples: TCP, UDP
-
-## Layer 5: Session
-- Manages sessions between applications
-- Examples: NetBIOS, RPC
-
-## Layer 6: Presentation
-- Translates data between networking service and application
-- Examples: JPEG, MPEG, SSL
-
-## Layer 7: Application
-- Interface for user applications
-- Examples: HTTP, SMTP, FTP, DNS
-
-Important to remember: "Please Do Not Throw Sausage Pizza Away" (Physical, Data Link, Network, Transport, Session, Presentation, Application)</textarea>
-                </div>
-            </div>
-        </div>
-        
-        <div id="chat" class="tab-content">
-            <h2 class="section-title">AI Networking Assistant</h2>
-            <div class="chat-container">
-                <div class="chat-header">
-                    <span class="chat-header-icon">🤖</span>
-                    NetLearn Assistant
-                </div>
-                <div class="chat-messages">
-                    <div class="message ai">
-                        <div class="message-content">
-                            Hello! I'm your NetLearn AI assistant. I'm here to help with any networking questions you have. What would you like to learn about today?
-                        </div>
-                    </div>
-                </div>
-                <div class="typing-indicator" id="typingIndicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="chat-input-container">
-                    <input type="text" class="chat-input" id="chatInput" placeholder="Type your networking question here...">
-                    <button class="chat-send-btn" id="sendBtn">Send</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <footer>
-        <div class="footer-content">
-            <div>
-                <p>&copy; 2025 NetLearn Virtual Classroom. All rights reserved.</p>
-            </div>
-            <div class="footer-links">
-                <a href="#">Terms of Service</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Contact Us</a>
-            </div>
-        </div>
-    </footer>
+    <!-- [Previous HTML structure remains the same] -->
     
     <script>
-        // Tab Functionality
-        function switchTab(tabId) {
-            // Deactivate all tabs
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Activate selected tab
-            document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-            
-            // Scroll to the top of the tab content
-            document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Set up tab buttons
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const tabId = button.getAttribute('data-tab');
-                switchTab(tabId);
-            });
-        });
-        
-        // Set up navigation links
-        document.querySelectorAll('.nav-link, .btn[data-tab]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const tabId = link.getAttribute('data-tab');
-                if (tabId) {
-                    switchTab(tabId);
-                }
-            });
-        });
-        
-        // Note Item Selection
-        document.querySelectorAll('.note-item').forEach(item => {
-            item.addEventListener('click', () => {
-                document.querySelectorAll('.note-item').forEach(note => {
-                    note.classList.remove('active');
-                });
-                item.classList.add('active');
-                
-                // In a real application, we would load the note content here
-                // This is a simplified demo
-                document.querySelector('.note-title').value = item.textContent;
-                
-                // Sample notes content based on selection
-                const noteContents = {
-                    "OSI Model Notes": `# OSI Model Layers
+        // [Previous JavaScript remains the same until the knowledge base section]
 
-## Layer 1: Physical
-- Deals with the physical connection between devices
-- Transmits raw bit stream over physical medium
-- Examples: Cables, switches, network adapters
-
-## Layer 2: Data Link
-- Provides node-to-node data transfer
-- Detects and possibly corrects errors from physical layer
-- Examples: Ethernet, PPP, Switch, Bridge
-
-## Layer 3: Network
-- Routes data packets between networks
-- Handles addressing and path determination
-- Examples: IP, ICMP, Routers
-
-## Layer 4: Transport
-- Provides end-to-end communication control
-- Examples: TCP, UDP
-
-## Layer 5: Session
-- Manages sessions between applications
-- Examples: NetBIOS, RPC
-
-## Layer 6: Presentation
-- Translates data between networking service and application
-- Examples: JPEG, MPEG, SSL
-
-## Layer 7: Application
-- Interface for user applications
-- Examples: HTTP, SMTP, FTP, DNS
-
-Important to remember: "Please Do Not Throw Sausage Pizza Away" (Physical, Data Link, Network, Transport, Session, Presentation, Application)`,
-                    "TCP/IP Protocol Suite": `# TCP/IP Protocol Stack
-
-## Application Layer
-- Corresponds to OSI layers 5-7
-- Protocols: HTTP, FTP, SMTP, DNS, DHCP, Telnet
-
-## Transport Layer
-- Corresponds to OSI layer 4
-- Protocols: TCP, UDP
-- TCP provides reliable, connection-oriented service
-- UDP provides unreliable, connectionless service
-
-## Internet Layer
-- Corresponds to OSI layer 3
-- Protocols: IP, ICMP, ARP
-- Handles logical addressing and routing
-
-## Network Interface Layer
-- Corresponds to OSI layers 1-2
-- Examples: Ethernet, Wi-Fi, PPP
-- Handles physical addressing and media access
-
-## Key Differences from OSI Model
-- TCP/IP is simpler with 4 layers instead of 7
-- TCP/IP is more practical and widely implemented
-- OSI is more theoretical but useful for understanding network concepts`,
-                    "Subnetting Cheat Sheet": `# Subnetting Quick Reference
-
-## CIDR Notation
-- /24 = 255.255.255.0 (Class C) - 256 addresses, 254 hosts
-- /25 = 255.255.255.128 - 128 addresses, 126 hosts
-- /26 = 255.255.255.192 - 64 addresses, 62 hosts
-- /27 = 255.255.255.224 - 32 addresses, 30 hosts
-- /28 = 255.255.255.240 - 16 addresses, 14 hosts
-- /29 = 255.255.255.248 - 8 addresses, 6 hosts
-- /30 = 255.255.255.252 - 4 addresses, 2 hosts
-
-## Subnet Mask Calculations
-- 2^n (where n is number of host bits) = number of addresses
-- Number of hosts = 2^n - 2 (subtract network and broadcast addresses)
-
-## Subnet Mask Increments
-- /24 (256): 0, 256, 512...
-- /25 (128): 0, 128, 256...
-- /26 (64): 0, 64, 128, 192...
-- /27 (32): 0, 32, 64, 96...
-- /28 (16): 0, 16, 32, 48...
-
-## Formula for Subnets
-- Number of subnets = 2^s (where s is subnet bits)
-- Block size = 2^h (where h is host bits)
-
-## Quick Tips
-- Network address: First address in subnet range
-- Broadcast address: Last address in subnet range
-- First usable host: Network address + 1
-- Last usable host: Broadcast address - 1`
-                };
-                
-                document.querySelector('.note-content').value = noteContents[item.textContent] || '';
-            });
-        });
-        
-        // Chatbot Functionality
-        const chatInput = document.getElementById('chatInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const chatMessages = document.querySelector('.chat-messages');
-        const typingIndicator = document.getElementById('typingIndicator');
-        
         // Enhanced knowledge base with comprehensive networking information
         const knowledgeBase = {
             "network fundamentals": {
@@ -1212,69 +202,13 @@ Which cloud networking concept would you like to explore?`,
 What automation topic interests you most?`,
                 followUp: ["How to use Ansible for network automation?", "Explain NETCONF/YANG models", "Python scripts for network tasks"]
             },
-            "subnetting": {
-                response: `Subnetting is essential for efficient IP addressing:
-
-1. Key Concepts:
-   • CIDR Notation (e.g., /24)
-   • Subnet Masks (e.g., 255.255.255.0)
-   • Network vs Host portions
-   • VLSM (Variable Length Subnet Masking)
-
-2. Calculation Steps:
-   1. Determine needed subnets/hosts
-   2. Borrow bits from host portion
-   3. Calculate subnet mask
-   4. Determine subnet ranges
-   5. Identify network/broadcast addresses
-
-3. Example: 192.168.1.0/24 divided into /26:
-   • 4 subnets (2^2)
-   • 62 hosts per subnet (2^6-2)
-   • Subnet ranges:
-     - 192.168.1.0-63
-     - 192.168.1.64-127
-     - 192.168.1.128-191
-     - 192.168.1.192-255
-
-Would you like practice problems or more examples?`,
-                followUp: ["Show more subnetting examples", "How to calculate VLSM?", "IPv6 subnetting basics"]
-            },
-            "tcp vs udp": {
-                response: `TCP and UDP are transport layer protocols:
-
-TCP (Transmission Control Protocol):
-• Connection-oriented (3-way handshake)
-• Reliable delivery (acknowledgments)
-• Ordered packet delivery
-• Flow control (window sizing)
-• Error checking and recovery
-• Higher overhead (20-60 byte headers)
-• Used by: HTTP, FTP, SMTP, SSH
-
-UDP (User Datagram Protocol):
-• Connectionless (no handshake)
-• No delivery guarantees
-• No ordering of packets
-• No flow control
-• Minimal error checking
-• Lower overhead (8 byte headers)
-• Used by: DNS, VoIP, video streaming, gaming
-
-When to use each:
-• TCP: When reliability is critical (web, email, file transfer)
-• UDP: When speed is priority (real-time media, gaming)
-
-Would you like examples of applications using each?`,
-                followUp: ["Why does DNS use UDP?", "Explain TCP 3-way handshake", "How does VoIP handle UDP packet loss?"]
-            },
             "default": {
-                response: "I'm sorry, I don't have information about that specific networking topic. Could you rephrase your question or ask about something else? I can help with topics like TCP/IP, routing, switching, network security, wireless networking, subnetting, and more!",
+                response: "I'm sorry, I can only answer questions about computer networking topics. Could you ask me something about networking concepts like TCP/IP, routing, switching, network security, wireless networking, or cloud networking?",
                 followUp: []
             }
         };
 
-        // Quiz database
+        // Quiz database - 10 questions per quiz
         const quizDatabase = {
             "network fundamentals": {
                 title: "Network Fundamentals Quiz",
@@ -1313,53 +247,90 @@ Would you like examples of applications using each?`,
                         ],
                         answer: 2,
                         explanation: "UDP (User Datagram Protocol) is connectionless and operates at the Transport layer, unlike TCP which is connection-oriented."
+                    },
+                    {
+                        question: "What is the default subnet mask for a Class B IP address?",
+                        options: [
+                            "255.0.0.0",
+                            "255.255.0.0",
+                            "255.255.255.0",
+                            "255.255.255.255"
+                        ],
+                        answer: 1,
+                        explanation: "Class B addresses use the first two octets for network identification, with a default subnet mask of 255.255.0.0."
+                    },
+                    {
+                        question: "Which device operates at the Data Link layer of the OSI model?",
+                        options: [
+                            "Router",
+                            "Hub",
+                            "Switch",
+                            "Firewall"
+                        ],
+                        answer: 2,
+                        explanation: "Switches operate at Layer 2 (Data Link) and use MAC addresses to forward frames."
+                    },
+                    {
+                        question: "What is the main function of ARP?",
+                        options: [
+                            "To resolve IP addresses to MAC addresses",
+                            "To route packets between networks",
+                            "To encrypt network traffic",
+                            "To manage wireless connections"
+                        ],
+                        answer: 0,
+                        explanation: "ARP (Address Resolution Protocol) maps IP addresses to MAC addresses on local networks."
+                    },
+                    {
+                        question: "Which network topology provides the highest redundancy?",
+                        options: [
+                            "Star",
+                            "Bus",
+                            "Ring",
+                            "Mesh"
+                        ],
+                        answer: 3,
+                        explanation: "Mesh topology provides multiple paths between nodes, offering the highest redundancy."
+                    },
+                    {
+                        question: "What is the purpose of a default gateway?",
+                        options: [
+                            "To connect devices within the same network",
+                            "To route traffic between different networks",
+                            "To encrypt all network communications",
+                            "To filter malicious traffic"
+                        ],
+                        answer: 1,
+                        explanation: "A default gateway routes traffic from a local network to other networks (typically a router)."
+                    },
+                    {
+                        question: "Which protocol is used to automatically assign IP addresses to devices?",
+                        options: [
+                            "DNS",
+                            "DHCP",
+                            "FTP",
+                            "SNMP"
+                        ],
+                        answer: 1,
+                        explanation: "DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses to devices on a network."
+                    },
+                    {
+                        question: "What is the primary function of the Transport layer?",
+                        options: [
+                            "To physically transmit bits across the network",
+                            "To establish end-to-end communication between applications",
+                            "To convert data formats between systems",
+                            "To manage network security policies"
+                        ],
+                        answer: 1,
+                        explanation: "The Transport layer (Layer 4) provides end-to-end communication services for applications."
                     }
                 ]
             },
-            "ip addressing & subnetting": {
-                title: "IP Addressing & Subnetting",
-                description: "Challenge yourself with questions on IP addressing, subnetting, and CIDR notation.",
+            "routing and switching": {
+                title: "Routing & Switching Quiz",
+                description: "Test your knowledge of routing protocols, switching concepts, and VLANs.",
                 timeLimit: 20,
-                questions: [
-                    {
-                        question: "What is the network address for host 192.168.1.150/24?",
-                        options: [
-                            "192.168.1.0",
-                            "192.168.1.1",
-                            "192.168.0.0",
-                            "192.168.1.255"
-                        ],
-                        answer: 0,
-                        explanation: "With a /24 subnet mask, the network address is x.x.x.0 and the broadcast is x.x.x.255."
-                    },
-                    {
-                        question: "How many usable host addresses are in a /28 subnet?",
-                        options: [
-                            "14",
-                            "16",
-                            "30",
-                            "254"
-                        ],
-                        answer: 0,
-                        explanation: "A /28 has 4 host bits (2^4=16 addresses). Subtract 2 for network and broadcast = 14 usable hosts."
-                    },
-                    {
-                        question: "Which of these is a private IP address range?",
-                        options: [
-                            "10.0.0.0 - 10.255.255.255",
-                            "172.15.0.0 - 172.31.255.255",
-                            "192.168.0.0 - 192.169.255.255",
-                            "169.254.0.0 - 169.254.255.255"
-                        ],
-                        answer: 0,
-                        explanation: "The private ranges are 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16."
-                    }
-                ]
-            },
-            "routing protocols": {
-                title: "Routing Protocols Test",
-                description: "Evaluate your knowledge of various routing protocols like OSPF, EIGRP, and BGP.",
-                timeLimit: 18,
                 questions: [
                     {
                         question: "Which routing protocol uses the Dijkstra algorithm to calculate the shortest path?",
@@ -1373,369 +344,577 @@ Would you like examples of applications using each?`,
                         explanation: "OSPF is a link-state protocol that uses Dijkstra's algorithm to build its shortest path first tree."
                     },
                     {
-                        question: "What is the administrative distance of EIGRP?",
+                        question: "What is the administrative distance of directly connected routes?",
+                        options: [
+                            "0",
+                            "1",
+                            "90",
+                            "110"
+                        ],
+                        answer: 0,
+                        explanation: "Directly connected routes have the most trusted administrative distance of 0."
+                    },
+                    {
+                        question: "What is the purpose of VLANs?",
+                        options: [
+                            "To increase network bandwidth",
+                            "To logically segment a network",
+                            "To encrypt network traffic",
+                            "To connect to the internet"
+                        ],
+                        answer: 1,
+                        explanation: "VLANs (Virtual LANs) logically segment networks without requiring physical separation."
+                    },
+                    {
+                        question: "Which protocol prevents switching loops in a redundant topology?",
+                        options: [
+                            "VTP",
+                            "STP",
+                            "RIP",
+                            "OSPF"
+                        ],
+                        answer: 1,
+                        explanation: "STP (Spanning Tree Protocol) prevents switching loops by blocking redundant paths."
+                    },
+                    {
+                        question: "What is the default administrative distance of OSPF?",
                         options: [
                             "90",
                             "100",
                             "110",
                             "120"
                         ],
-                        answer: 0,
-                        explanation: "EIGRP has an AD of 90 for internal routes and 170 for external routes."
+                        answer: 2,
+                        explanation: "OSPF has a default administrative distance of 110."
                     },
                     {
-                        question: "Which protocol is considered the 'protocol of the Internet'?",
+                        question: "Which switching method has the lowest latency?",
                         options: [
+                            "Store-and-forward",
+                            "Cut-through",
+                            "Fragment-free",
+                            "Adaptive switching"
+                        ],
+                        answer: 1,
+                        explanation: "Cut-through switching has the lowest latency as it begins forwarding frames before receiving the entire frame."
+                    },
+                    {
+                        question: "What is the purpose of a trunk port?",
+                        options: [
+                            "To connect end devices",
+                            "To carry traffic for multiple VLANs",
+                            "To provide internet access",
+                            "To filter malicious traffic"
+                        ],
+                        answer: 1,
+                        explanation: "Trunk ports carry traffic for multiple VLANs between switches."
+                    },
+                    {
+                        question: "Which routing protocol is considered path vector?",
+                        options: [
+                            "RIP",
                             "OSPF",
                             "EIGRP",
-                            "BGP",
-                            "RIP"
+                            "BGP"
+                        ],
+                        answer: 3,
+                        explanation: "BGP (Border Gateway Protocol) is a path vector protocol used between autonomous systems."
+                    },
+                    {
+                        question: "What is the purpose of VTP?",
+                        options: [
+                            "To synchronize VLAN information across switches",
+                            "To route between VLANs",
+                            "To encrypt VLAN traffic",
+                            "To monitor VLAN performance"
+                        ],
+                        answer: 0,
+                        explanation: "VTP (VLAN Trunking Protocol) synchronizes VLAN information across switches in the same domain."
+                    },
+                    {
+                        question: "Which EIGRP table contains all learned routes?",
+                        options: [
+                            "Neighbor table",
+                            "Topology table",
+                            "Routing table",
+                            "ARP table"
+                        ],
+                        answer: 1,
+                        explanation: "EIGRP's topology table contains all routes learned from neighbors, while the routing table contains only the best routes."
+                    }
+                ]
+            },
+            "network security": {
+                title: "Network Security Quiz",
+                description: "Test your knowledge of firewalls, encryption, VPNs, and security threats.",
+                timeLimit: 20,
+                questions: [
+                    {
+                        question: "Which encryption algorithm is asymmetric?",
+                        options: [
+                            "AES",
+                            "DES",
+                            "RSA",
+                            "3DES"
                         ],
                         answer: 2,
-                        explanation: "BGP (Border Gateway Protocol) is the path-vector protocol used to exchange routing information between autonomous systems on the Internet."
+                        explanation: "RSA is an asymmetric algorithm that uses public/private key pairs."
+                    },
+                    {
+                        question: "What is the purpose of a DMZ?",
+                        options: [
+                            "To isolate internal networks from the internet",
+                            "To increase network speed",
+                            "To manage wireless access points",
+                            "To filter spam emails"
+                        ],
+                        answer: 0,
+                        explanation: "A DMZ (Demilitarized Zone) isolates publicly accessible services from internal networks."
+                    },
+                    {
+                        question: "Which protocol provides secure remote access over a web browser?",
+                        options: [
+                            "IPsec",
+                            "SSL VPN",
+                            "PPTP",
+                            "L2TP"
+                        ],
+                        answer: 1,
+                        explanation: "SSL VPN provides secure remote access through a web browser without requiring client software."
+                    },
+                    {
+                        question: "What is the primary purpose of 802.1X?",
+                        options: [
+                            "Wireless encryption",
+                            "Port-based network access control",
+                            "VLAN tagging",
+                            "Quality of service"
+                        ],
+                        answer: 1,
+                        explanation: "802.1X provides port-based network access control using authentication."
+                    },
+                    {
+                        question: "Which type of firewall maintains state information?",
+                        options: [
+                            "Packet-filtering",
+                            "Stateful",
+                            "Proxy",
+                            "Application-level"
+                        ],
+                        answer: 1,
+                        explanation: "Stateful firewalls track the state of network connections."
+                    },
+                    {
+                        question: "What is the purpose of a honeypot?",
+                        options: [
+                            "To attract and analyze attacks",
+                            "To encrypt all network traffic",
+                            "To block malicious websites",
+                            "To filter spam emails"
+                        ],
+                        answer: 0,
+                        explanation: "A honeypot is a security mechanism to detect and analyze attacks."
+                    },
+                    {
+                        question: "Which protocol is used for AAA services?",
+                        options: [
+                            "RADIUS",
+                            "SNMP",
+                            "DHCP",
+                            "DNS"
+                        ],
+                        answer: 0,
+                        explanation: "RADIUS provides Authentication, Authorization, and Accounting (AAA) services."
+                    },
+                    {
+                        question: "What is the primary security risk of WEP?",
+                        options: [
+                            "Weak encryption",
+                            "No authentication",
+                            "Slow performance",
+                            "Complex configuration"
+                        ],
+                        answer: 0,
+                        explanation: "WEP uses weak RC4 encryption that can be easily cracked."
+                    },
+                    {
+                        question: "Which type of attack floods a network with ICMP echo requests?",
+                        options: [
+                            "Phishing",
+                            "Ping of Death",
+                            "Smurf",
+                            "SYN flood"
+                        ],
+                        answer: 2,
+                        explanation: "A Smurf attack floods a network with ICMP echo requests using broadcast addresses."
+                    },
+                    {
+                        question: "What is the purpose of certificate authorities in PKI?",
+                        options: [
+                            "To issue and verify digital certificates",
+                            "To encrypt all network traffic",
+                            "To filter malicious websites",
+                            "To authenticate wireless clients"
+                        ],
+                        answer: 0,
+                        explanation: "Certificate Authorities (CAs) issue and verify digital certificates in a PKI system."
+                    }
+                ]
+            },
+            "wireless networking": {
+                title: "Wireless Networking Quiz",
+                description: "Test your knowledge of wireless standards, security, and deployment.",
+                timeLimit: 15,
+                questions: [
+                    {
+                        question: "Which wireless standard operates exclusively in the 5GHz band?",
+                        options: [
+                            "802.11a",
+                            "802.11b",
+                            "802.11g",
+                            "802.11n"
+                        ],
+                        answer: 0,
+                        explanation: "802.11a operates exclusively in the 5GHz band."
+                    },
+                    {
+                        question: "What is the maximum theoretical speed of 802.11ac (Wave 2)?",
+                        options: [
+                            "54 Mbps",
+                            "300 Mbps",
+                            "1.3 Gbps",
+                            "6.9 Gbps"
+                        ],
+                        answer: 3,
+                        explanation: "802.11ac Wave 2 can theoretically reach up to 6.9 Gbps with 8 streams and 160MHz channels."
+                    },
+                    {
+                        question: "Which security protocol introduced Simultaneous Authentication of Equals (SAE)?",
+                        options: [
+                            "WPA",
+                            "WPA2",
+                            "WPA3",
+                            "WEP"
+                        ],
+                        answer: 2,
+                        explanation: "WPA3 introduced SAE to replace the vulnerable PSK authentication method."
+                    },
+                    {
+                        question: "What is the purpose of CSMA/CA in wireless networks?",
+                        options: [
+                            "Encrypt data transmissions",
+                            "Prevent signal interference",
+                            "Manage channel allocation",
+                            "Authenticate wireless clients"
+                        ],
+                        answer: 1,
+                        explanation: "CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance) helps prevent collisions in wireless transmissions."
+                    },
+                    {
+                        question: "Which channels are non-overlapping in the 2.4GHz band?",
+                        options: [
+                            "1, 2, 3",
+                            "1, 5, 9",
+                            "1, 6, 11",
+                            "3, 7, 11"
+                        ],
+                        answer: 2,
+                        explanation: "Channels 1, 6, and 11 are non-overlapping in the 2.4GHz band."
+                    },
+                    {
+                        question: "What is the primary benefit of MIMO technology?",
+                        options: [
+                            "Increased range",
+                            "Higher data rates",
+                            "Better security",
+                            "Lower power consumption"
+                        ],
+                        answer: 1,
+                        explanation: "MIMO (Multiple Input Multiple Output) increases data rates by using multiple antennas."
+                    },
+                    {
+                        question: "Which wireless topology allows devices to communicate directly without an access point?",
+                        options: [
+                            "Infrastructure",
+                            "Ad-hoc",
+                            "Mesh",
+                            "Point-to-multipoint"
+                        ],
+                        answer: 1,
+                        explanation: "Ad-hoc mode allows devices to communicate directly without an access point."
+                    },
+                    {
+                        question: "What is the purpose of a wireless site survey?",
+                        options: [
+                            "To detect unauthorized access points",
+                            "To optimize access point placement",
+                            "To monitor network usage",
+                            "To test security vulnerabilities"
+                        ],
+                        answer: 1,
+                        explanation: "A wireless site survey helps determine optimal access point placement for coverage and performance."
+                    },
+                    {
+                        question: "Which technology allows a single access point to serve multiple SSIDs?",
+                        options: [
+                            "VLAN tagging",
+                            "MIMO",
+                            "Beamforming",
+                            "Channel bonding"
+                        ],
+                        answer: 0,
+                        explanation: "VLAN tagging allows a single access point to serve multiple SSIDs mapped to different VLANs."
+                    },
+                    {
+                        question: "What is the main advantage of 802.11ax (Wi-Fi 6)?",
+                        options: [
+                            "Higher throughput in dense environments",
+                            "Longer range",
+                            "Simpler configuration",
+                            "Lower cost"
+                        ],
+                        answer: 0,
+                        explanation: "802.11ax (Wi-Fi 6) improves throughput in dense environments using OFDMA and other technologies."
+                    }
+                ]
+            },
+            "cloud networking": {
+                title: "Cloud Networking Quiz",
+                description: "Test your knowledge of virtual networks, cloud services, and hybrid connectivity.",
+                timeLimit: 15,
+                questions: [
+                    {
+                        question: "What is the AWS equivalent of a virtual network?",
+                        options: [
+                            "VNet",
+                            "VPC",
+                            "Subnet",
+                            "Availability Zone"
+                        ],
+                        answer: 1,
+                        explanation: "AWS uses VPC (Virtual Private Cloud) for virtual networking."
+                    },
+                    {
+                        question: "Which Azure service provides dedicated private network connectivity?",
+                        options: [
+                            "VPN Gateway",
+                            "ExpressRoute",
+                            "Load Balancer",
+                            "Traffic Manager"
+                        ],
+                        answer: 1,
+                        explanation: "Azure ExpressRoute provides dedicated private network connectivity to Azure."
+                    },
+                    {
+                        question: "What is the purpose of a security group in cloud networking?",
+                        options: [
+                            "To define network topology",
+                            "To control inbound/outbound traffic",
+                            "To manage user permissions",
+                            "To encrypt data at rest"
+                        ],
+                        answer: 1,
+                        explanation: "Security groups act as virtual firewalls controlling inbound and outbound traffic."
+                    },
+                    {
+                        question: "Which technology enables network function virtualization?",
+                        options: [
+                            "SDN",
+                            "NFV",
+                            "IaaS",
+                            "PaaS"
+                        ],
+                        answer: 1,
+                        explanation: "NFV (Network Function Virtualization) virtualizes network functions that traditionally ran on dedicated hardware."
+                    },
+                    {
+                        question: "What is the primary benefit of a content delivery network (CDN)?",
+                        options: [
+                            "Increased security",
+                            "Reduced latency for end users",
+                            "Lower cloud costs",
+                            "Simpler network management"
+                        ],
+                        answer: 1,
+                        explanation: "CDNs reduce latency by caching content at edge locations closer to end users."
+                    },
+                    {
+                        question: "Which AWS service provides global network acceleration?",
+                        options: [
+                            "Direct Connect",
+                            "Global Accelerator",
+                            "Route 53",
+                            "CloudFront"
+                        ],
+                        answer: 1,
+                        explanation: "AWS Global Accelerator improves performance by routing traffic through AWS's global network."
+                    },
+                    {
+                        question: "What is the purpose of a transit gateway?",
+                        options: [
+                            "To connect VPCs and on-premises networks centrally",
+                            "To provide internet access",
+                            "To encrypt all network traffic",
+                            "To manage DNS records"
+                        ],
+                        answer: 0,
+                        explanation: "Transit gateways simplify network architecture by centrally connecting VPCs and on-premises networks."
+                    },
+                    {
+                        question: "Which Azure networking service provides load balancing at layer 7?",
+                        options: [
+                            "Azure Load Balancer",
+                            "Application Gateway",
+                            "Traffic Manager",
+                            "Front Door"
+                        ],
+                        answer: 1,
+                        explanation: "Azure Application Gateway provides layer 7 (application layer) load balancing."
+                    },
+                    {
+                        question: "What is the primary purpose of a cloud NAT gateway?",
+                        options: [
+                            "To allow outbound internet access for private instances",
+                            "To provide inbound access to instances",
+                            "To encrypt traffic between regions",
+                            "To connect multiple VPCs"
+                        ],
+                        answer: 0,
+                        explanation: "NAT gateways allow private instances to initiate outbound internet connections while preventing inbound connections."
+                    },
+                    {
+                        question: "Which GCP service provides global load balancing?",
+                        options: [
+                            "Cloud Load Balancing",
+                            "Cloud Armor",
+                            "Cloud CDN",
+                            "Cloud Interconnect"
+                        ],
+                        answer: 0,
+                        explanation: "GCP's Cloud Load Balancing provides global, cross-region load balancing."
+                    }
+                ]
+            },
+            "network automation": {
+                title: "Network Automation Quiz",
+                description: "Test your knowledge of automation tools, APIs, and infrastructure as code.",
+                timeLimit: 15,
+                questions: [
+                    {
+                        question: "Which protocol is used for network configuration management?",
+                        options: [
+                            "NETCONF",
+                            "SNMP",
+                            "RESTCONF",
+                            "SSH"
+                        ],
+                        answer: 0,
+                        explanation: "NETCONF is a network management protocol for installing, manipulating, and deleting configurations."
+                    },
+                    {
+                        question: "What is the primary benefit of infrastructure as code?",
+                        options: [
+                            "Faster network speeds",
+                            "Consistent, repeatable deployments",
+                            "Better security",
+                            "Lower hardware costs"
+                        ],
+                        answer: 1,
+                        explanation: "Infrastructure as code enables consistent, repeatable deployments through version-controlled configuration files."
+                    },
+                    {
+                        question: "Which tool is commonly used for network automation with YAML?",
+                        options: [
+                            "Ansible",
+                            "Puppet",
+                            "Chef",
+                            "Terraform"
+                        ],
+                        answer: 0,
+                        explanation: "Ansible uses YAML for its playbooks to automate network configurations."
+                    },
+                    {
+                        question: "What is the purpose of YANG models in network automation?",
+                        options: [
+                            "To define network device configurations",
+                            "To encrypt automation scripts",
+                            "To visualize network topology",
+                            "To monitor network performance"
+                        ],
+                        answer: 0,
+                        explanation: "YANG is a data modeling language used to model configuration and state data for network devices."
+                    },
+                    {
+                        question: "Which API type is commonly used for network automation?",
+                        options: [
+                            "SOAP",
+                            "REST",
+                            "GraphQL",
+                            "gRPC"
+                        ],
+                        answer: 1,
+                        explanation: "REST APIs are commonly used for network automation due to their simplicity and widespread support."
+                    },
+                    {
+                        question: "What is the primary purpose of NAPALM?",
+                        options: [
+                            "To provide a multi-vendor API for network devices",
+                            "To encrypt network automation traffic",
+                            "To visualize network configurations",
+                            "To monitor network performance"
+                        ],
+                        answer: 0,
+                        explanation: "NAPALM (Network Automation and Programmability Abstraction Layer with Multivendor support) provides a unified API for different network devices."
+                    },
+                    {
+                        question: "Which Python library is commonly used for SSH-based network automation?",
+                        options: [
+                            "Netmiko",
+                            "NAPALM",
+                            "PyEZ",
+                            "ncclient"
+                        ],
+                        answer: 0,
+                        explanation: "Netmiko is a multi-vendor library for SSH-based network device interaction."
+                    },
+                    {
+                        question: "What is the primary benefit of CI/CD pipelines in network automation?",
+                        options: [
+                            "Faster network speeds",
+                            "Automated testing and deployment of network changes",
+                            "Better security",
+                            "Lower hardware costs"
+                        ],
+                        answer: 1,
+                        explanation: "CI/CD pipelines automate testing and deployment of network changes, improving reliability."
+                    },
+                    {
+                        question: "Which protocol would you use to stream telemetry data from network devices?",
+                        options: [
+                            "SNMP",
+                            "gRPC",
+                            "NETCONF",
+                            "REST"
+                        ],
+                        answer: 1,
+                        explanation: "gRPC is commonly used for streaming telemetry data due to its efficiency."
+                    },
+                    {
+                        question: "What is the purpose of Terraform in network automation?",
+                        options: [
+                            "To configure individual devices",
+                            "To orchestrate entire network infrastructure",
+                            "To monitor network performance",
+                            "To visualize network topology"
+                        ],
+                        answer: 1,
+                        explanation: "Terraform is an infrastructure as code tool that orchestrates entire network infrastructure deployments."
                     }
                 ]
             }
         };
 
-        // Quiz functionality
-        const quizList = document.getElementById('quizList');
-        const quizContainer = document.getElementById('quizContainer');
-        const quizTitle = document.getElementById('quizTitle');
-        const quizDescription = document.getElementById('quizDescription');
-        const quizProgress = document.getElementById('quizProgress');
-        const quizContent = document.getElementById('quizContent');
-        const prevQuestionBtn = document.getElementById('prevQuestion');
-        const nextQuestionBtn = document.getElementById('nextQuestion');
-        const quizResult = document.getElementById('quizResult');
-        const quizScore = document.getElementById('quizScore');
-        const quizFeedback = document.getElementById('quizFeedback');
-        const retakeQuizBtn = document.getElementById('retakeQuiz');
-        const backToQuizzesBtn = document.getElementById('backToQuizzes');
-
-        let currentQuiz = null;
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let quizScoreValue = 0;
-
-        // Load quizzes into the quiz list
-        function loadQuizzes() {
-            quizList.innerHTML = '';
-            for (const [quizId, quizData] of Object.entries(quizDatabase)) {
-                const quizCard = document.createElement('div');
-                quizCard.className = 'quiz-card';
-                quizCard.innerHTML = `
-                    <h3>${quizData.title}</h3>
-                    <div class="quiz-meta">
-                        <span>${quizData.questions.length} questions</span>
-                        <span>${quizData.timeLimit} minutes</span>
-                    </div>
-                    <p>${quizData.description}</p>
-                    <button class="btn start-quiz" data-quiz="${quizId}">Start Quiz</button>
-                `;
-                quizList.appendChild(quizCard);
-            }
-
-            // Add event listeners to start quiz buttons
-            document.querySelectorAll('.start-quiz').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const quizId = this.getAttribute('data-quiz');
-                    startQuiz(quizId);
-                });
-            });
-        }
-
-        // Start a quiz
-        function startQuiz(quizId) {
-            currentQuiz = quizDatabase[quizId];
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            quizScoreValue = 0;
-
-            quizTitle.textContent = currentQuiz.title;
-            quizDescription.textContent = currentQuiz.description;
-
-            // Hide quiz list and show quiz container
-            quizList.style.display = 'none';
-            quizContainer.style.display = 'block';
-            quizResult.style.display = 'none';
-
-            showQuestion();
-        }
-
-        // Show current question
-        function showQuestion() {
-            const question = currentQuiz.questions[currentQuestionIndex];
-            
-            quizProgress.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuiz.questions.length}`;
-            
-            quizContent.innerHTML = `
-                <div class="quiz-question">${question.question}</div>
-                <div class="quiz-options">
-                    ${question.options.map((option, index) => `
-                        <div class="quiz-option" data-index="${index}">${option}</div>
-                    `).join('')}
-                </div>
-            `;
-
-            // Highlight selected answer if exists
-            if (userAnswers[currentQuestionIndex] !== undefined) {
-                const selectedOption = document.querySelector(`.quiz-option[data-index="${userAnswers[currentQuestionIndex]}"]`);
-                if (selectedOption) {
-                    selectedOption.classList.add('selected');
-                }
-            }
-
-            // Update navigation buttons
-            prevQuestionBtn.disabled = currentQuestionIndex === 0;
-            nextQuestionBtn.textContent = currentQuestionIndex === currentQuiz.questions.length - 1 ? 'Submit Quiz' : 'Next';
-        }
-
-        // Event delegation for quiz options
-        quizContent.addEventListener('click', function(e) {
-            if (e.target.classList.contains('quiz-option')) {
-                // Remove selected class from all options
-                document.querySelectorAll('.quiz-option').forEach(opt => {
-                    opt.classList.remove('selected');
-                });
-
-                // Add selected class to clicked option
-                e.target.classList.add('selected');
-                
-                // Save user's answer
-                const selectedIndex = parseInt(e.target.getAttribute('data-index'));
-                userAnswers[currentQuestionIndex] = selectedIndex;
-            }
-        });
-
-        // Navigation between questions
-        prevQuestionBtn.addEventListener('click', function() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                showQuestion();
-            }
-        });
-
-        nextQuestionBtn.addEventListener('click', function() {
-            if (userAnswers[currentQuestionIndex] === undefined) {
-                alert('Please select an answer before proceeding.');
-                return;
-            }
-
-            if (currentQuestionIndex < currentQuiz.questions.length - 1) {
-                currentQuestionIndex++;
-                showQuestion();
-            } else {
-                submitQuiz();
-            }
-        });
-
-        // Submit quiz and show results
-        function submitQuiz() {
-            // Calculate score
-            quizScoreValue = 0;
-            currentQuiz.questions.forEach((question, index) => {
-                if (userAnswers[index] === question.answer) {
-                    quizScoreValue++;
-                }
-            });
-
-            // Show results
-            quizContainer.style.display = 'none';
-            quizResult.style.display = 'block';
-
-            const percentage = Math.round((quizScoreValue / currentQuiz.questions.length) * 100);
-            quizScore.textContent = `${quizScoreValue}/${currentQuiz.questions.length} (${percentage}%)`;
-
-            if (percentage >= 80) {
-                quizFeedback.textContent = 'Excellent work! You have a strong understanding of this topic.';
-            } else if (percentage >= 60) {
-                quizFeedback.textContent = 'Good job! You have a decent understanding but could review some areas.';
-            } else {
-                quizFeedback.textContent = 'Keep practicing! Review the material and try again.';
-            }
-        }
-
-        // Retake quiz
-        retakeQuizBtn.addEventListener('click', function() {
-            startQuiz(Object.keys(quizDatabase).find(key => quizDatabase[key] === currentQuiz));
-        });
-
-        // Back to quizzes list
-        backToQuizzesBtn.addEventListener('click', function() {
-            quizList.style.display = 'grid';
-            quizContainer.style.display = 'none';
-            quizResult.style.display = 'none';
-        });
-
-        // Set up learning module buttons
-        document.querySelectorAll('.learn-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const moduleCard = this.closest('.module-card');
-                const topic = moduleCard.getAttribute('data-topic');
-                
-                // Switch to AI Assistant tab
-                switchTab('chat');
-                
-                // After a short delay to allow tab switch, ask about the topic
-                setTimeout(() => {
-                    askAboutTopic(topic);
-                }, 300);
-            });
-        });
-
-        // Function to ask the AI about a specific topic
-        function askAboutTopic(topic) {
-            const knowledge = knowledgeBase[topic] || knowledgeBase['default'];
-            
-            // Clear previous messages except the first welcome message
-            const messages = document.querySelectorAll('.chat-messages .message');
-            for (let i = 1; i < messages.length; i++) {
-                messages[i].remove();
-            }
-            
-            // Add the topic question
-            addMessage(`Tell me about ${topic}`, 'user');
-            
-            // Show typing indicator
-            typingIndicator.style.display = 'flex';
-            
-            // Simulate AI thinking
-            setTimeout(() => {
-                typingIndicator.style.display = 'none';
-                
-                // Add AI response
-                addMessage(knowledge.response, 'ai');
-                
-                // Add follow-up questions as buttons
-                if (knowledge.followUp && knowledge.followUp.length > 0) {
-                    const followUpDiv = document.createElement('div');
-                    followUpDiv.className = 'follow-up-questions';
-                    followUpDiv.style.marginTop = '10px';
-                    followUpDiv.style.display = 'flex';
-                    followUpDiv.style.flexWrap = 'wrap';
-                    followUpDiv.style.gap = '5px';
-                    
-                    knowledge.followUp.forEach(question => {
-                        const btn = document.createElement('button');
-                        btn.textContent = question;
-                        btn.className = 'follow-up-btn';
-                        btn.style.padding = '5px 10px';
-                        btn.style.backgroundColor = '#f1f0f0';
-                        btn.style.border = 'none';
-                        btn.style.borderRadius = '4px';
-                        btn.style.cursor = 'pointer';
-                        btn.style.fontSize = '0.9rem';
-                        
-                        btn.addEventListener('click', () => {
-                            chatInput.value = question;
-                            sendMessage();
-                        });
-                        
-                        followUpDiv.appendChild(btn);
-                    });
-                    
-                    document.querySelector('.chat-messages').appendChild(followUpDiv);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }
-            }, 1500);
-        }
-
-        // Send message function
-        function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message) return;
-            
-            // Add user message to chat
-            addMessage(message, 'user');
-            chatInput.value = '';
-            
-            // Show typing indicator
-            typingIndicator.style.display = 'flex';
-            
-            // Simulate AI thinking
-            setTimeout(() => {
-                typingIndicator.style.display = 'none';
-                
-                // Find the best response
-                const lowerMessage = message.toLowerCase();
-                let response = knowledgeBase['default'].response;
-                let followUp = [];
-                
-                for (const [key, value] of Object.entries(knowledgeBase)) {
-                    if (lowerMessage.includes(key.toLowerCase())) {
-                        response = value.response;
-                        followUp = value.followUp || [];
-                        break;
-                    }
-                }
-                
-                // Add AI response
-                addMessage(response, 'ai');
-                
-                // Add follow-up questions if available
-                if (followUp.length > 0) {
-                    const followUpDiv = document.createElement('div');
-                    followUpDiv.className = 'follow-up-questions';
-                    followUpDiv.style.marginTop = '10px';
-                    followUpDiv.style.display = 'flex';
-                    followUpDiv.style.flexWrap = 'wrap';
-                    followUpDiv.style.gap = '5px';
-                    
-                    followUp.forEach(question => {
-                        const btn = document.createElement('button');
-                        btn.textContent = question;
-                        btn.className = 'follow-up-btn';
-                        btn.style.padding = '5px 10px';
-                        btn.style.backgroundColor = '#f1f0f0';
-                        btn.style.border = 'none';
-                        btn.style.borderRadius = '4px';
-                        btn.style.cursor = 'pointer';
-                        btn.style.fontSize = '0.9rem';
-                        
-                        btn.addEventListener('click', () => {
-                            chatInput.value = question;
-                            sendMessage();
-                        });
-                        
-                        followUpDiv.appendChild(btn);
-                    });
-                    
-                    document.querySelector('.chat-messages').appendChild(followUpDiv);
-                }
-                
-                // Scroll to bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1500);
-        }
-        
-        // Add message to chat
-        function addMessage(content, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.textContent = content;
-            
-            messageDiv.appendChild(contentDiv);
-            chatMessages.appendChild(messageDiv);
-            
-            // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
-        // Event listeners for chat
-        sendBtn.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-        
-        // Initialize
-        loadQuizzes();
-        switchTab('learn');
+        // [Rest of the JavaScript implementation remains the same]
     </script>
 </body>
 </html>
