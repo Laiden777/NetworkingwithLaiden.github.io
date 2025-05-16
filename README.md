@@ -74,7 +74,7 @@
             padding: 2rem;
         }
         
-        /* [Rest of your CSS remains exactly the same] */
+        /* [All your existing CSS styles remain exactly the same] */
     </style>
 </head>
 <body>
@@ -85,78 +85,84 @@
                 NetLearn
             </div>
             <div class="nav-links">
-                <a href="#learn" class="nav-link">Learn</a>
-                <a href="#quiz" class="nav-link">Tests & Quizzes</a>
-                <a href="#notes" class="nav-link">My Notes</a>
-                <a href="#chat" class="nav-link">AI Assistant</a>
+                <a href="#learn" class="nav-link" data-tab="learn">Learn</a>
+                <a href="#quiz" class="nav-link" data-tab="quiz">Tests & Quizzes</a>
+                <a href="#notes" class="nav-link" data-tab="notes">My Notes</a>
+                <a href="#chat" class="nav-link" data-tab="chat">AI Assistant</a>
             </div>
         </nav>
     </header>
     
     <div class="container">
-        <!-- Your existing content sections remain exactly the same -->
-        <!-- Just ensure each section has the correct ID: -->
-        <!-- learn, quiz, notes, chat -->
+        <!-- Your existing content sections -->
+        <div id="learn" class="tab-content">
+            <!-- Learn content -->
+        </div>
+        <div id="quiz" class="tab-content" style="display:none;">
+            <!-- Quiz content -->
+        </div>
+        <div id="notes" class="tab-content" style="display:none;">
+            <!-- Notes content -->
+        </div>
+        <div id="chat" class="tab-content" style="display:none;">
+            <!-- Chat content -->
+        </div>
     </div>
     
     <footer>
-        <!-- Your footer content remains the same -->
+        <!-- Your footer content -->
     </footer>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get all navigation links
+            // Get all navigation links and tab buttons
             const navLinks = document.querySelectorAll('.nav-link');
-            
-            // Get all tab buttons and content sections
             const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
             
             // Function to show a specific tab
             function showTab(tabId) {
                 // Hide all tab contents
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // Deactivate all tab buttons
-                tabButtons.forEach(button => {
-                    button.classList.remove('active');
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.style.display = 'none';
                 });
                 
                 // Show the selected tab content
                 const activeTab = document.getElementById(tabId);
                 if (activeTab) {
-                    activeTab.classList.add('active');
+                    activeTab.style.display = 'block';
                 }
                 
-                // Activate the corresponding tab button if it exists
-                const activeButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
-                if (activeButton) {
-                    activeButton.classList.add('active');
-                }
+                // Update active state for navigation links
+                navLinks.forEach(link => {
+                    link.style.fontWeight = link.dataset.tab === tabId ? 'bold' : 'normal';
+                });
+                
+                // Update active state for tab buttons
+                tabButtons.forEach(button => {
+                    if (button.dataset.tab === tabId) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
             }
             
             // Handle navigation link clicks
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    showTab(targetId);
-                    
-                    // Update URL without page jump
-                    history.pushState(null, null, `#${targetId}`);
+                    const tabId = this.dataset.tab;
+                    showTab(tabId);
+                    window.location.hash = tabId;
                 });
             });
             
             // Handle tab button clicks
             tabButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
+                    const tabId = this.dataset.tab;
                     showTab(tabId);
-                    
-                    // Update URL without page jump
-                    history.pushState(null, null, `#${tabId}`);
+                    window.location.hash = tabId;
                 });
             });
             
@@ -171,27 +177,15 @@
                 }
             }
             
-            // Also handle back/forward navigation
+            // Initialize the page
+            checkInitialTab();
+            
+            // Handle browser back/forward navigation
             window.addEventListener('popstate', function() {
                 const hash = window.location.hash.substring(1);
                 if (hash && document.getElementById(hash)) {
                     showTab(hash);
                 }
-            });
-            
-            // Initialize the page
-            checkInitialTab();
-            
-            // Your existing note item selection code can remain the same
-            document.querySelectorAll('.note-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('.note-item').forEach(note => {
-                        note.classList.remove('active');
-                    });
-                    item.classList.add('active');
-                    
-                    // Note content loading logic here...
-                });
             });
         });
     </script>
