@@ -3,17 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laiden's Networking Classroom - Virtual Networking Classroom</title>
+    <title>Laiden's Networking Classroom</title>
     <style>
-        /* [Previous CSS styles remain exactly the same] */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 2rem auto;
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        .sidebar {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .main-content {
+            flex: 3;
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+        }
+
+        .module {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 6px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .module:hover {
+            background: #eef2f7;
+            transform: translateX(5px);
+        }
+
+        .module.active {
+            background: #e1e8f0;
+            border-left: 4px solid #3498db;
+        }
+
+        .chat-container {
+            height: 500px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message {
+            background: white;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            background: white;
+            border-top: 1px solid #eaeaea;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        #send-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            margin-left: 0.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #send-btn:hover {
+            background: #2980b9;
+        }
+
+        .follow-up-questions {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .follow-up-btn {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 15px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .follow-up-btn:hover {
+            background: #bbdefb;
+        }
+
+        .quiz-container {
+            display: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-question {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-option {
+            padding: 0.8rem 1rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            background: #f0f0f0;
+        }
+
+        .quiz-option.selected {
+            background: #e3f2fd;
+            border-color: #3498db;
+        }
+
+        .quiz-option.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .quiz-option.incorrect {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .quiz-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #prev-btn {
+            background: #f5f5f5;
+        }
+
+        #next-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        #submit-quiz {
+            background: #4caf50;
+            color: white;
+        }
+
+        .quiz-result {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .result-score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 1rem 0;
+        }
+
+        .result-feedback {
+            margin-bottom: 1.5rem;
+        }
+
+        .explanation {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            border-left: 4px solid #3498db;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid #3498db;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                margin-bottom: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- [Previous HTML structure remains the same] -->
-    
-    <script>
-        // [Previous JavaScript remains the same until the knowledge base section]
+    <header>
+        <div class="logo">Laiden's Networking Classroom</div>
+    </header>
 
+    <div class="container">
+        <div class="sidebar">
+            <h2>Learning Modules</h2>
+            <div class="module" data-topic="network fundamentals">Network Fundamentals</div>
+            <div class="module" data-topic="routing and switching">Routing & Switching</div>
+            <div class="module" data-topic="network security">Network Security</div>
+            <div class="module" data-topic="wireless networking">Wireless Networking</div>
+            <div class="module" data-topic="cloud networking">Cloud Networking</div>
+            <div class="module" data-topic="network automation">Network Automation</div>
+
+            <h2 style="margin-top: 2rem;">Quizzes</h2>
+            <div class="module quiz" data-quiz="network fundamentals">Network Fundamentals Quiz</div>
+            <div class="module quiz" data-quiz="routing and switching">Routing & Switching Quiz</div>
+            <div class="module quiz" data-quiz="network security">Network Security Quiz</div>
+            <div class="module quiz" data-quiz="wireless networking">Wireless Networking Quiz</div>
+            <div class="module quiz" data-quiz="cloud networking">Cloud Networking Quiz</div>
+            <div class="module quiz" data-quiz="network automation">Network Automation Quiz</div>
+        </div>
+
+        <div class="main-content">
+            <div class="tab-container">
+                <div class="tab active" data-tab="chat">Chat Assistant</div>
+                <div class="tab" data-tab="quiz">Quiz</div>
+            </div>
+
+            <div class="tab-content active" id="chat-tab">
+                <div class="chat-container">
+                    <div class="chat-header">Networking Assistant</div>
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message bot-message">
+                            Welcome to Laiden's Networking Classroom! How can I help you with networking today?
+                            <div class="follow-up-questions">
+                                <div class="follow-up-btn">Explain the OSI model</div>
+                                <div class="follow-up-btn">What's the difference between TCP and UDP?</div>
+                                <div class="follow-up-btn">How do VLANs work?</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="user-input" placeholder="Ask about networking...">
+                        <button id="send-btn">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="quiz-tab">
+                <div class="quiz-container" id="quiz-container">
+                    <div class="quiz-header">
+                        <h2 id="quiz-title">Quiz Title</h2>
+                        <div id="quiz-timer">Time: 15:00</div>
+                    </div>
+                    <div id="quiz-description">Quiz description will appear here</div>
+                    
+                    <div class="quiz-question">
+                        <h3 id="question-text">Question text will appear here</h3>
+                        <div class="quiz-options" id="options-container">
+                            <!-- Options will be inserted here by JavaScript -->
+                        </div>
+                        <div class="explanation" id="explanation" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn" id="prev-btn" disabled>Previous</button>
+                        <button class="quiz-btn" id="next-btn">Next</button>
+                        <button class="quiz-btn" id="submit-quiz" style="display: none;">Submit Quiz</button>
+                    </div>
+                </div>
+
+                <div class="quiz-result" id="quiz-result">
+                    <h2>Quiz Completed!</h2>
+                    <div class="result-score">Your Score: <span id="score">0</span>/10</div>
+                    <div class="result-feedback" id="feedback">Feedback based on your score</div>
+                    <button class="quiz-btn" id="retake-quiz">Retake Quiz</button>
+                    <button class="quiz-btn" id="new-quiz">Take Another Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
         // Enhanced knowledge base with comprehensive networking information
         const knowledgeBase = {
             "network fundamentals": {
@@ -914,7 +1323,276 @@ What automation topic interests you most?`,
             }
         };
 
-        // [Rest of the JavaScript implementation remains the same]
+        // DOM Elements
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const modules = document.querySelectorAll('.module');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const quizContainer = document.getElementById('quiz-container');
+        const quizResult = document.getElementById('quiz-result');
+        const quizTitle = document.getElementById('quiz-title');
+        const quizDescription = document.getElementById('quiz-description');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanation = document.getElementById('explanation');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-quiz');
+        const retakeBtn = document.getElementById('retake-quiz');
+        const newQuizBtn = document.getElementById('new-quiz');
+        const scoreElement = document.getElementById('score');
+        const feedbackElement = document.getElementById('feedback');
+        const quizTimer = document.getElementById('quiz-timer');
+
+        // Quiz Variables
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+        let timerInterval = null;
+        let timeLeft = 0;
+
+        // Initialize the app
+        function init() {
+            // Event Listeners
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            // Module click handlers
+            modules.forEach(module => {
+                if (module.classList.contains('quiz')) {
+                    module.addEventListener('click', () => startQuiz(module.dataset.quiz));
+                } else {
+                    module.addEventListener('click', () => askAboutTopic(module.dataset.topic));
+                }
+            });
+
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+                });
+            });
+
+            // Quiz navigation
+            prevBtn.addEventListener('click', goToPreviousQuestion);
+            nextBtn.addEventListener('click', goToNextQuestion);
+            submitBtn.addEventListener('click', submitQuiz);
+            retakeBtn.addEventListener('click', () => startQuiz(currentQuiz));
+            newQuizBtn.addEventListener('click', () => {
+                document.querySelector('.tab[data-tab="chat"]').click();
+            });
+        }
+
+        // Chat Functions
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            // Process the message
+            setTimeout(() => {
+                const response = getBotResponse(message);
+                addMessage(response.response, 'bot', response.followUp);
+            }, 500);
+        }
+
+        function addMessage(text, sender, followUpQuestions = []) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', `${sender}-message`);
+            messageDiv.textContent = text;
+
+            if (followUpQuestions.length > 0) {
+                const followUpDiv = document.createElement('div');
+                followUpDiv.classList.add('follow-up-questions');
+                
+                followUpQuestions.forEach(question => {
+                    const btn = document.createElement('div');
+                    btn.classList.add('follow-up-btn');
+                    btn.textContent = question;
+                    btn.addEventListener('click', () => {
+                        addMessage(question, 'user');
+                        setTimeout(() => {
+                            const response = getBotResponse(question);
+                            addMessage(response.response, 'bot', response.followUp);
+                        }, 500);
+                    });
+                    followUpDiv.appendChild(btn);
+                });
+
+                messageDiv.appendChild(followUpDiv);
+            }
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Check if message matches any topic
+            for (const topic in knowledgeBase) {
+                if (lowerMessage.includes(topic)) {
+                    return knowledgeBase[topic];
+                }
+            }
+            
+            // Check follow-up questions
+            for (const topic in knowledgeBase) {
+                if (knowledgeBase[topic].followUp.some(followUp => 
+                    lowerMessage.includes(followUp.toLowerCase()))) {
+                    return knowledgeBase[topic];
+                }
+            }
+            
+            // Default response
+            return knowledgeBase.default;
+        }
+
+        function askAboutTopic(topic) {
+            document.querySelector('.tab[data-tab="chat"]').click();
+            addMessage(`Tell me about ${topic}`, 'user');
+            setTimeout(() => {
+                const response = knowledgeBase[topic] || knowledgeBase.default;
+                addMessage(response.response, 'bot', response.followUp);
+            }, 500);
+        }
+
+        // Quiz Functions
+        function startQuiz(quizName) {
+            document.querySelector('.tab[data-tab="quiz"]').click();
+            currentQuiz = quizName;
+            currentQuestionIndex = 0;
+            userAnswers = Array(quizDatabase[quizName].questions.length).fill(null);
+            score = 0;
+            
+            // Set up quiz
+            const quiz = quizDatabase[quizName];
+            quizTitle.textContent = quiz.title;
+            quizDescription.textContent = quiz.description;
+            
+            // Set up timer
+            timeLeft = quiz.timeLimit * 60;
+            clearInterval(timerInterval);
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+            
+            // Show quiz container
+            quizContainer.style.display = 'block';
+            quizResult.style.display = 'none';
+            
+            // Load first question
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            quizTimer.textContent = `Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        function loadQuestion(index) {
+            const quiz = quizDatabase[currentQuiz];
+            const question = quiz.questions[index];
+            
+            questionText.textContent = question.question;
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, i) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('quiz-option');
+                if (userAnswers[index] === i) {
+                    optionDiv.classList.add('selected');
+                }
+                optionDiv.textContent = option;
+                optionDiv.addEventListener('click', () => selectOption(i));
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            // Update navigation buttons
+            prevBtn.disabled = index === 0;
+            nextBtn.style.display = index < quiz.questions.length - 1 ? 'block' : 'none';
+            submitBtn.style.display = index === quiz.questions.length - 1 ? 'block' : 'none';
+            
+            // Hide explanation for new question
+            explanation.style.display = 'none';
+        }
+
+        function selectOption(optionIndex) {
+            // Remove selected class from all options
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.target.classList.add('selected');
+            
+            // Store user's answer
+            userAnswers[currentQuestionIndex] = optionIndex;
+        }
+
+        function goToPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function goToNextQuestion() {
+            if (currentQuestionIndex < quizDatabase[currentQuiz].questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            
+            // Calculate score
+            const quiz = quizDatabase[currentQuiz];
+            score = 0;
+            
+            quiz.questions.forEach((question, index) => {
+                if (userAnswers[index] === question.answer) {
+                    score++;
+                }
+            });
+            
+            // Display results
+            quizContainer.style.display = 'none';
+            quizResult.style.display = 'block';
+            
+            scoreElement.textContent = `${score}/${quiz.questions.length}`;
+            
+            // Provide feedback based on score
+            const percentage = (score / quiz.questions.length) * 100;
+            if (percentage >= 80) {
+                feedbackElement.textContent = "Excellent work! You have a strong understanding of this topic.";
+            } else if (percentage >= 60) {
+                feedbackElement.textContent = "Good job! You have a decent understanding but could review some areas.";
+            } else {
+                feedbackElement.textContent = "Keep studying! Review the material and try again.";
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
