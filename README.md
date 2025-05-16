@@ -26,14 +26,35 @@
             border-radius: 5px;
             margin-bottom: 30px;
         }
-        .chat-container {
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .content-area {
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 20px;
-            margin-bottom: 20px;
-            height: 500px;
+            min-height: 500px;
+        }
+        .chat-container {
+            height: 400px;
             overflow-y: auto;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
         }
         .input-area {
             display: flex;
@@ -94,6 +115,38 @@
         .follow-up-btn:hover {
             background-color: #d0d0d0;
         }
+        .quiz-container {
+            display: none;
+        }
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .quiz-options {
+            margin-top: 10px;
+        }
+        .quiz-option {
+            display: block;
+            margin: 5px 0;
+            padding: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .quiz-option:hover {
+            background-color: #ddd;
+        }
+        .notes-container {
+            display: none;
+        }
+        .topic-container {
+            display: none;
+        }
+        .active-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -103,13 +156,49 @@
             <p>Virtual Networking Classroom</p>
         </header>
         
-        <div class="chat-container" id="chatContainer">
-            <!-- Chat messages will appear here -->
+        <div class="tab-container">
+            <div class="tab active" data-tab="chat">Chat</div>
+            <div class="tab" data-tab="topics">Topics</div>
+            <div class="tab" data-tab="quizzes">Quizzes</div>
+            <div class="tab" data-tab="notes">Notes</div>
         </div>
         
-        <div class="input-area">
-            <input type="text" id="userInput" placeholder="Ask me anything about networking..." autocomplete="off">
-            <button id="sendBtn">Send</button>
+        <div class="content-area">
+            <!-- Chat Tab -->
+            <div class="chat-container active-content" id="chatContainer">
+                <!-- Chat messages will appear here -->
+            </div>
+            
+            <div class="input-area" id="chatInputArea">
+                <input type="text" id="userInput" placeholder="Ask me anything about networking..." autocomplete="off">
+                <button id="sendBtn">Send</button>
+            </div>
+            
+            <!-- Topics Tab -->
+            <div class="topic-container" id="topicsContainer">
+                <h2>Networking Topics</h2>
+                <div class="topics-list" id="topicsList">
+                    <!-- Topics will be dynamically loaded here -->
+                </div>
+            </div>
+            
+            <!-- Quizzes Tab -->
+            <div class="quiz-container" id="quizzesContainer">
+                <h2>Networking Quizzes</h2>
+                <div class="quizzes-list" id="quizzesList">
+                    <!-- Quizzes will be dynamically loaded here -->
+                </div>
+                <div class="quiz-questions" id="quizQuestions" style="display:none;">
+                    <!-- Quiz questions will appear here -->
+                </div>
+            </div>
+            
+            <!-- Notes Tab -->
+            <div class="notes-container" id="notesContainer">
+                <h2>My Notes</h2>
+                <textarea id="notesTextarea" style="width:100%; height:400px;"></textarea>
+                <button id="saveNotesBtn">Save Notes</button>
+            </div>
         </div>
     </div>
 
@@ -148,74 +237,26 @@
             }
         };
 
-        // Networking Knowledge Base
-        const knowledgeBase = {
-            "network fundamentals": {
-                response: `Network fundamentals form the foundation of all networking concepts. Here's a detailed breakdown:
-
-1. OSI Model (7 Layers):
-   • Layer 7 - Application: HTTP, FTP, SMTP (user interfaces)
-   • Layer 6 - Presentation: Encryption, compression (data translation)
-   • Layer 5 - Session: Establishes and manages connections
-   • Layer 4 - Transport: TCP (reliable) and UDP (fast)
-   • Layer 3 - Network: IP addressing and routing
-   • Layer 2 - Data Link: MAC addresses, switches
-   • Layer 1 - Physical: Cables, signals, hubs
-
-2. TCP/IP Protocol Suite:
-   • Application Layer: Combines OSI App/Pres/Session
-   • Transport Layer: TCP/UDP with ports
-   • Internet Layer: IP (IPv4/IPv6), ICMP, ARP
-   • Network Interface: Ethernet, Wi-Fi
-
-3. Common Network Topologies:
-   • Star: Central switch with connected devices
-   • Bus: Single cable with terminators
-   • Ring: Circular connection
-   • Mesh: Fully or partially connected
-   • Hybrid: Combination of above
-
-4. Network Devices:
-   • Hubs: Layer 1 repeaters (obsolete)
-   • Switches: Layer 2, use MAC addresses
-   • Routers: Layer 3, connect networks
-   • Firewalls: Security filtering`,
-                followUp: ["Explain TCP vs UDP in detail", "How does IP addressing work?", "What's the difference between switches and routers?"]
+        // Networking Topics
+        const topics = {
+            "Network Fundamentals": {
+                content: `Network fundamentals form the foundation of all networking concepts...`,
+                subtopics: ["OSI Model", "TCP/IP Protocol Suite", "Network Topologies", "Network Devices"]
             },
-            "routing and switching": {
-                response: `Routing and switching are core functions in networking:
-
-1. Switching (Layer 2):
-   • Uses MAC addresses to forward frames
-   • Learns MAC addresses from incoming traffic
-   • Maintains MAC address tables
-   • VLANs create logical networks
-   • STP prevents switching loops
-
-2. Routing (Layer 3):
-   • Uses IP addresses to route packets
-   • Routing tables determine best paths
-   • Static vs dynamic routing
-   • Common protocols:
-     - OSPF: Link-state, fast convergence
-     - EIGRP: Cisco's advanced distance vector
-     - BGP: Path vector for internet routing
-
-3. Key Differences:
-   • Switches: Faster, work within same network
-   • Routers: Connect different networks
-   • Switches use hardware (ASICs) for forwarding
-   • Routers use software for path determination`,
-                followUp: ["How does OSPF calculate routes?", "Explain VLAN trunking", "What are the advantages of EIGRP?"]
+            "Routing and Switching": {
+                content: `Routing and switching are core functions in networking...`,
+                subtopics: ["Switching Concepts", "Routing Protocols", "VLANs", "STP"]
+            },
+            "Network Security": {
+                content: `Network security is crucial for protecting infrastructure...`,
+                subtopics: ["Firewalls", "Encryption", "VPNs", "Authentication"]
             }
         };
 
         // Quiz Database
-        const quizDatabase = {
-            "network fundamentals": {
-                title: "Network Fundamentals Quiz",
-                description: "Test your understanding of basic networking concepts, protocols, and the OSI model.",
-                timeLimit: 15,
+        const quizzes = {
+            "Network Fundamentals Quiz": {
+                description: "Test your understanding of basic networking concepts",
                 questions: [
                     {
                         question: "Which layer of the OSI model is responsible for logical addressing and routing?",
@@ -230,16 +271,175 @@
                         explanation: "The three-way handshake (SYN, SYN-ACK, ACK) establishes a reliable TCP connection before data transfer."
                     }
                 ]
+            },
+            "Routing and Switching Quiz": {
+                description: "Test your knowledge of routing protocols and switching concepts",
+                questions: [
+                    {
+                        question: "Which routing protocol uses the Dijkstra algorithm?",
+                        options: ["RIP", "OSPF", "EIGRP", "BGP"],
+                        answer: 1,
+                        explanation: "OSPF is a link-state protocol that uses Dijkstra's algorithm."
+                    }
+                ]
             }
         };
+
+        // ==================== UI FUNCTIONALITY ==================== //
+        
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Hide all content areas
+                document.querySelectorAll('.chat-container, .topic-container, .quiz-container, .notes-container').forEach(container => {
+                    container.style.display = 'none';
+                });
+                
+                // Show the selected content area
+                const tabName = tab.getAttribute('data-tab');
+                document.getElementById(`${tabName}Container`).style.display = 'block';
+                
+                // Special handling for quizzes tab
+                if (tabName === 'quizzes') {
+                    loadQuizzesList();
+                }
+                
+                // Special handling for topics tab
+                if (tabName === 'topics') {
+                    loadTopicsList();
+                }
+            });
+        });
+
+        // Load quizzes list
+        function loadQuizzesList() {
+            const quizzesList = document.getElementById('quizzesList');
+            quizzesList.innerHTML = '';
+            
+            for (const [quizName, quizData] of Object.entries(quizzes)) {
+                const quizElement = document.createElement('div');
+                quizElement.className = 'quiz-item';
+                quizElement.innerHTML = `
+                    <h3>${quizName}</h3>
+                    <p>${quizData.description}</p>
+                    <button class="start-quiz" data-quiz="${quizName}">Start Quiz</button>
+                `;
+                quizzesList.appendChild(quizElement);
+            }
+            
+            // Add event listeners to quiz buttons
+            document.querySelectorAll('.start-quiz').forEach(button => {
+                button.addEventListener('click', function() {
+                    startQuiz(this.getAttribute('data-quiz'));
+                });
+            });
+        }
+
+        // Start a quiz
+        function startQuiz(quizName) {
+            const quiz = quizzes[quizName];
+            const quizQuestions = document.getElementById('quizQuestions');
+            const quizzesList = document.getElementById('quizzesList');
+            
+            quizzesList.style.display = 'none';
+            quizQuestions.style.display = 'block';
+            quizQuestions.innerHTML = `<h3>${quizName}</h3>`;
+            
+            quiz.questions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'quiz-question';
+                questionElement.innerHTML = `
+                    <p><strong>Question ${index + 1}:</strong> ${q.question}</p>
+                    <div class="quiz-options">
+                        ${q.options.map((option, i) => `
+                            <div class="quiz-option" data-question="${index}" data-answer="${i}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="quiz-explanation" id="explanation-${index}" style="display:none; margin-top:10px; padding:10px; background:#e8f5e9; border-radius:5px;">
+                        ${q.explanation}
+                    </div>
+                `;
+                quizQuestions.appendChild(questionElement);
+            });
+            
+            // Add back button
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to Quizzes';
+            backButton.addEventListener('click', () => {
+                quizQuestions.style.display = 'none';
+                quizzesList.style.display = 'block';
+            });
+            quizQuestions.appendChild(backButton);
+            
+            // Add event listeners to options
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionIndex = this.getAttribute('data-question');
+                    const answerIndex = this.getAttribute('data-answer');
+                    const correctAnswer = quiz.questions[questionIndex].answer;
+                    const explanation = document.getElementById(`explanation-${questionIndex}`);
+                    
+                    if (parseInt(answerIndex) === correctAnswer) {
+                        this.style.backgroundColor = '#c8e6c9';
+                    } else {
+                        this.style.backgroundColor = '#ffcdd2';
+                    }
+                    
+                    explanation.style.display = 'block';
+                });
+            });
+        }
+
+        // Load topics list
+        function loadTopicsList() {
+            const topicsList = document.getElementById('topicsList');
+            topicsList.innerHTML = '';
+            
+            for (const [topicName, topicData] of Object.entries(topics)) {
+                const topicElement = document.createElement('div');
+                topicElement.className = 'topic-item';
+                topicElement.innerHTML = `
+                    <h3>${topicName}</h3>
+                    <div class="subtopics">
+                        ${topicData.subtopics.map(subtopic => `
+                            <div class="subtopic">${subtopic}</div>
+                        `).join('')}
+                    </div>
+                    <div class="topic-content" style="display:none;">
+                        ${topicData.content}
+                    </div>
+                `;
+                topicsList.appendChild(topicElement);
+            }
+        }
+
+        // Notes functionality
+        document.getElementById('saveNotesBtn').addEventListener('click', function() {
+            const notes = document.getElementById('notesTextarea').value;
+            localStorage.setItem('netlearn-notes', notes);
+            alert('Notes saved successfully!');
+        });
+
+        // Load saved notes
+        window.addEventListener('load', function() {
+            const savedNotes = localStorage.getItem('netlearn-notes');
+            if (savedNotes) {
+                document.getElementById('notesTextarea').value = savedNotes;
+            }
+            
+            // Display initial greeting in chat
+            displayMessage('bot', generalKnowledge.greetings.response);
+        });
 
         // ==================== CHAT FUNCTIONALITY ==================== //
         const chatContainer = document.getElementById('chatContainer');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-
-        // Display initial greeting
-        displayMessage('bot', generalKnowledge.greetings.response);
 
         // Send button click handler
         sendBtn.addEventListener('click', sendMessage);
@@ -314,9 +514,12 @@
             }
             
             // Then check networking knowledge
-            for (const [key, value] of Object.entries(knowledgeBase)) {
-                if (input.includes(key)) {
-                    return value;
+            for (const [key, value] of Object.entries(topics)) {
+                if (input.toLowerCase().includes(key.toLowerCase())) {
+                    return {
+                        response: value.content,
+                        followUp: value.subtopics.map(sub => `Tell me about ${sub}`)
+                    };
                 }
             }
             
